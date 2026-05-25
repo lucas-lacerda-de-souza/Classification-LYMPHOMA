@@ -106,6 +106,6 @@ Supplementary Table 9. Literature review of previous studies.
 
 🔒 Data Availability
 
-Due to ethical restrictions, institutional review board policies, and patient privacy regulations, complete whole-slide images (WSIs), raw clinicopathological data, and patient-identifiable material 
-cannot be publicly shared.
+Due to ethical restrictions, institutional review board policies, and patient privacy regulations, complete whole-slide images (WSIs), raw clinicopathological data, and patient-identifiable 
+material cannot be publicly shared.
 Only representative examples and directory structures are provided to facilitate reproducibility of the computational pipeline.
