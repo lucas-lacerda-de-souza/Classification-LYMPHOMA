@@ -1,193 +1,407 @@
-🧠 Model Card — Multimodal AI for DLBCL vs ENKTCL-NT Classification
+🧠 Model Card — Multimodal AI for Head and Neck Lymphoid Lesion Classification
+
 1. Model Overview
-This repository provides a suite of deep learning, segmentation, and traditional machine learning models developed to classify Diffuse Large B-Cell Lymphoma (DLBCL) and Extranodal NK/T-Cell Lymphoma, 
-Nasal Type (ENKTCL-NT) from histopathological image patches, morphometric nuclear descriptors, and clinicopathological features.
+This repository provides a multimodal artificial intelligence framework developed to support the classification of head and neck lymphoid lesions using histopathological image analysis, nuclear morphometric descriptors, and clinicopathological variables.
 
-The multimodal system integrates:
-CNN-based patch classifiers:
-AlexNet, ResNet50, ConvNeXt-XLarge
-Segmentation-enhanced CNN variants using U-Net++ (to isolate diagnostically relevant nuclear regions)
-Traditional ML classifier (XGBoost) combining clinicopathologic and morphometric features
-Multimodal late-fusion patient-level classifiers combining deep learning predictions with structured features
-Vision transformer–based architecture (CellViT++) for joint nuclear segmentation and classification.
-Explainability tools: Grad-CAM and SHAP
-The goal is to support pathologists in distinguishing between these two clinically aggressive lymphomas, which frequently overlap morphologically and contribute to diagnostic variability.
+The model was designed for four diagnostic categories:
+| Class | Diagnostic Category |
+|-------|--------------------------------|
+|   0   |   Aggressive B-cell lymphoma   |
+|   1   | Indolent/small B-cell lymphoma |
+|   2   |       NK/T-cell lymphoma       |
+|   3   |     Reactive lymphoid lesion   |
 
-2. Data Used
-Source and Composition
-136 whole-slide images (WSIs)
-68 DLBCL
-68 ENKTCL-NT
-Originating from multiple institutions, with two separate external validation cohorts.
-Patch Preparation
-Patch size: 299 × 299 pixels
-Magnification: 40×
-Patch overlap: 20% to preserve local context
-Ensured patient-level split to prevent data leakage.
+The computational framework integrates:
+- UNI foundation model embeddings extracted from H&E histopathological patches
+- CellViT++-based nuclear segmentation and morphometric feature extraction
+- Clinicopathological variables, including age, sex, and anatomical location
+- Attention-based multiple instance learning (MIL)
+- Patch-level, slide-level, and patient-level evaluation
+- SHAP-based explainability analysis
+- AI-guided diagnostic workflow for immunohistochemical and molecular testing
+The goal of this model is to provide a research-oriented decision-support framework for computational hematopathology, particularly in diagnostically challenging head and neck lymphoid lesions.
 
-Segmentation
-U-Net++ with attention was used to remove background, necrosis, stroma, and artifacts, retaining only cellular areas with diagnostic value.
-In addition to CNN-based segmentation, a vision transformer–based model (CellViT++) was employed to perform joint nuclear segmentation and classification, enabling simultaneous modelling of fine-grained nuclear morphology and long-range contextual dependencies within histological patches.
+This model is not intended for autonomous clinical diagnosis.
 
-Color Normalization
-Macenko normalization to mitigate staining and scanner variability across institutions.
+2. Study Design and Data
+This study was designed as a multicentre, retrospective, cross-sectional investigation using anonymised histopathological and clinicopathological data.
+Cases were retrieved from pathology archives between 2000 and 2024 and included head and neck lymphoid lesions reviewed by specialist pathologists.
 
-Data Augmentation
-Rotations (90°, 180°, 270°)
-Gaussian blur
-Applied only to internal training/validation, not external datasets.
+The dataset included the following diagnostic groups:
 
-Clinical & Morphometric Variables
-Included:
+| Diagnostic Group | Number of Cases |
+|---------------------------------|-----|
+|   Aggressive B-cell lymphomas   | 278 |
+| Indolent/small B-cell lymphomas | 128 |
+|        NK/T-cell lymphomas      |  86 |
+|    Reactive lymphoid lesions    | 170 |
+
+The cases were obtained from multiple institutions across Brazil, Guatemala, Mexico, and the United Kingdom. The multicentre design introduced variability in staining protocols, scanner platforms, tissue processing, and institutional workflows, allowing evaluation of model robustness under heterogeneous real-world conditions.
+Whole-slide images were scanned at 40× magnification using digital pathology systems, and representative regions of interest were annotated for downstream analysis.
+
+3. Data Splitting
+The dataset was divided into development and independent external validation cohorts.
+The development cohort included 80% of the dataset and was subdivided into:
+- Training set: 60%
+- Validation set: 10%
+- Internal test set: 10%
+
+The remaining 20% of cases were reserved for independent external validation and divided into:
+- External Validation Cohort A
+- External Validation Cohort B
+Data splitting was performed in a centre-aware manner to reduce institutional data leakage and to support robust multicentre evaluation.
+
+4. Model Architecture
+4.1 UNI Foundation Model
+The UNI foundation model was used as a frozen feature extractor for histopathological image representation learning.
+
+Main characteristics:
+- Backbone: Vision Transformer `vit_large_patch16_224`
+- Input: H&E image patches
+- Patch size: 224 × 224 pixels
+- Encoder: Frozen UNI model
+- Output: High-dimensional patch embeddings
+- Training: No UNI weight updates
+
+The extracted embeddings were used for:
+- Patch-level classification
+- MIL-based slide-level aggregation
+- Patient-level prediction
+- Multimodal fusion with morphometric and clinical data
+
+4.2 Patch-Level Classifier
+
+UNI-derived embeddings were passed to a fully connected classifier:
+text
+Linear(d → 256)
+ReLU
+Dropout(0.3)
+Linear(256 → 4)
+
+4.3 Multiple Instance Learning Model
+
+An attention-based MIL module was used to aggregate patch embeddings into slide-level representations.
+
+Attention mechanism:
+Linear(d → 128)
+Tanh
+Linear(128 → 1)
+Softmax
+
+Slide-level classifier:
+Linear(d → 128)
+ReLU
+Dropout(0.2)
+Linear(128 → 4)
+
+This allowed the model to assign attention weights to diagnostically informative patches and generate slide-level predictions.
+
+4.4 CellViT++ Nuclear Segmentation
+
+CellViT++ was used for nuclear instance segmentation and morphometric feature extraction.
+The original CellViT++ architecture was used without architectural modifications.
+
+Extracted nuclear morphometric features included:
+Nuclear area
+Nuclear perimeter
+Circularity
+Eccentricity
+These features were computed from segmentation masks and aggregated at patch and case levels.
+
+4.5 Multimodal Fusion
+
+The multimodal model integrated:
+UNI-derived histopathological embeddings
+Nuclear morphometric descriptors
+Clinicopathological variables
+
+Clinical variables included:
 Age
-Hematoxylin mean optical density
-Nuclear area, perimeter, circularity, eccentricity
-Features with highest SHAP impact (>1.0) used in multimodal models.
+Sex
+Anatomical location
 
-External Validation
-Two independent external cohorts:
-EV1: 13 cases
-EV2: 14 cases
-These were completely unseen during training.
+Morphometric variables included:
+Nuclear area
+Perimeter
+Circularity
+Eccentricity
 
-3. Model Performance Summary
-🧬 Morphometric Analysis
-DLBCL nuclei exhibited:
-Larger area (p < 0.0001)
-Greater perimeter (p < 0.0001)
-Higher eccentricity (p = 0.0052)
+All structured features were standardised and concatenated with image-derived embeddings before supervised classification.
 
-ENKTCL-NT nuclei showed:
-Similar circularity (p = 0.1195)
+5. Training Configuration
+The models were trained using a supervised learning framework.
+Training characteristics:
+Loss function: class-weighted cross-entropy
+Optimizer: Adam
+Learning rate: 1 × 10⁻⁴
+Epochs: up to 200
+Model selection: best validation accuracy
+Evaluation levels:
+Patch-level
+Slide-level/MIL
+Patient-level
 
-DLBCL also demonstrated:
-Significantly higher hematoxylin OD mean (p < 0.0001)
-These quantitative findings align with established descriptions of DLBCL as having large, pleomorphic, hyperchromatic nuclei, while ENKTCL-NT frequently displays variable nuclear morphology with necrosis and inflammation.
+Computational environment:
+Operating system: Ubuntu 20.04.1 LTS
+Python: 3.12.11
+PyTorch: 2.8.0
+CUDA: 12.8
+CPU: Intel Xeon W-2295
+RAM: 125 GB
+GPU: 3 × NVIDIA RTX 3090, 24 GB each
 
-🧮 Traditional Machine Learning (XGBoost)
+6. Performance Metrics
+Model performance was evaluated using:
+Accuracy
+Weighted precision
+Weighted recall
+Weighted F1-score
+Balanced accuracy
+Cohen’s kappa
+Sensitivity
+Specificity
+ROC AUC
+Confusion matrix analysis
+Bootstrap confidence intervals
+Expected calibration error
+Brier score
 
-Performance with clinicopathological + morphometric features:
-Metric and Score
-Accuracy: 0.829
-AUC: 0.945 (0.950 by ROC)
-F1-score: 0.829
-Precision: 0.810
-Recall: 0.850
+7. Results Summary
+7.1 Nuclear Segmentation and Morphometry
+CellViT++ demonstrated robust nuclear segmentation performance across heterogeneous tissue samples.
+| Metric           | Value     |
+| ---------------- | --------- |
+| Dice coefficient |   0.91    |
+| Dice range       | 0.86–0.95 |
+|     IoU          |   0.84    |
+|   IoU range      | 0.78–0.90 |
 
-SHAP Analysis — Top Predictors:
-Age (1.651)
-Nuclear area (1.264)
-Hematoxylin OD mean (1.248)
-These features were used in the multimodal fusion model.
+Morphometric analysis showed distinct nuclear patterns across diagnostic groups.
+Aggressive B-cell lymphomas showed:
+Mean nuclear area: 23.83
+Mean perimeter: 19.69
+Mean circularity: 0.752
+Mean eccentricity: 0.742
 
-🧠 Deep Learning — Patch-Level Performance
-AlexNet
-Internal accuracy: 0.785
-EV1: 0.770, EV2: 0.805
-Consistent but limited performance reflecting architectural shallowness.
+Indolent/small B-cell lymphomas showed:
+Mean nuclear area: 20.73
+Mean perimeter: 18.37
+Mean circularity: 0.784
+Mean eccentricity: 0.707
 
-AlexNet + Segmentation
-Internal accuracy: 0.820
-EV1: 0.765, EV2: 0.805
-Segmentation improved robustness and reduced noise.
+NK/T-cell lymphomas showed:
+Mean nuclear area: 20.12
+Mean perimeter: 18.17
+Mean circularity: 0.755
+Mean eccentricity: 0.758
 
-ResNet50
-Internal accuracy: 0.930
-EV1: 0.885, EV2: 0.895
-Strong performance and stable generalisation.
+Reactive lesions showed:
+Mean nuclear area: 20.58
+Mean perimeter: 18.03
+Mean circularity: 0.812
+Mean eccentricity: 0.697
+These findings support the biological relevance of nuclear morphometric features for lymphoma classification.
 
-ResNet50 + Segmentation
-Internal accuracy: 0.960
-EV1: 0.930, EV2: 0.952
-One of the highest-performing configurations.
-Cohen’s κ up to 0.904, indicating strong agreement.
+7.2 Unimodal Analysis
 
-ConvNeXt-XLarge
-Internal accuracy: 0.875
-EV1: 0.860, EV2: 0.885
+The H&E-only model demonstrated limited generalisation.
+| Metric             | Value |
+| ------------------ | ----- |
+| Accuracy           | 0.66  |
+| Weighted precision | 0.66  |
+| Weighted recall    | 0.66  |
+| Weighted F1-score  | 0.65  |
+| Balanced accuracy  | 0.66  |
+| Cohen’s kappa      | 0.63  |
+| Sensitivity        | 0.66  |
+| Specificity        | 0.71  |
 
-ConvNeXt-XLarge + Segmentation
-Internal accuracy: 0.915
-EV1: 0.885, EV2: 0.901
-Strong balance of precision and recall across datasets.
 
-👩‍⚕️ Multimodal Patient-Level Models
-AlexNet multimodal
-Internal accuracy: 0.892
-EV1: 0.770
-EV2: 0.906
+Class-wise ROC AUC:
 
-Calibration remained strong (ECE 0.039–0.071)
-AlexNet + Segmentation multimodal
-Internal: 0.880
-EV1: 0.858
-EV2: 0.892
+| Class                          | AUC  |
+| ------------------------------ | ---- |
+| Aggressive B-cell lymphoma     | 0.71 |
+| Reactive lesions               | 0.68 |
+| NK/T-cell lymphoma             | 0.64 |
+| Indolent/small B-cell lymphoma | 0.60 |
 
-ResNet50 multimodal
-Internal accuracy: 0.924
-EV1: 0.814
-EV2: 0.904
+Training accuracy approached 1.00, while validation accuracy plateaued at approximately 0.75, indicating overfitting and limited morphology-only generalisation.
 
-ResNet50 + Segmentation multimodal
-Internal: 0.978
-EV1: 0.902
-EV2: 0.933
-Among the best-performing patient-level models
+7.3 Multimodal Analysis
+The multimodal model demonstrated improved optimisation, stronger generalisation, and superior classification performance.
 
-ConvNeXt-XLarge multimodal
-Internal: 0.893
-EV1: 0.871
-EV2: 0.913
+| Metric             | Value |
+| ------------------ | ----- |
+| Accuracy           | 0.91  |
+| Weighted precision | 0.91  |
+| Weighted recall    | 0.91  |
+| Weighted F1-score  | 0.91  |
+| Balanced accuracy  | 0.90  |
+| Cohen’s kappa      | 0.88  |
+| Sensitivity        | 0.91  |
+| Specificity        | 0.94  |
 
-ConvNeXt-XLarge + Segmentation multimodal
-Internal: 0.861
-EV1: 0.831
-EV2: 0.869
+Class-wise ROC AUC:
 
-Overall, segmentation-enhanced multimodal ResNet50 showed the highest accuracy, stability, and calibration across all datasets.
+| Class                          | AUC   |
+| ------------------------------ | ----- |
+| Aggressive B-cell lymphoma     | 0.905 |
+| T/NK-cell lymphoma             | 0.880 |
+| Indolent/small B-cell lymphoma | 0.870 |
+| Reactive lesions               | 0.811 |
 
-🧠 Vision Transformer — CellViT++
-The CellViT++ architecture demonstrated consistently high performance in nuclear segmentation tasks, with Dice and Intersection-over-Union (IoU) values exceeding 0.95 across all evaluated cohorts.  
-Beyond segmentation, CellViT++ achieved strong discriminative performance in classification tasks. At the patch level, the model reached an accuracy of 94.3% with a ROC AUC of 0.96 (95% CI: 0.86–0.99). When evaluated at the patient level, CellViT++ achieved an accuracy of 92.1%, with sensitivity of 92.8%, specificity of 91.5%, and a ROC AUC of 0.96 (95% CI: 0.91–0.98).  
-Calibration analysis indicated reliable probability estimates, with a low expected calibration error (ECE = 0.07) and a Brier score of 0.05. These results indicate that attention-based vision transformer architectures can effectively capture heterogeneous nuclear patterns while maintaining stable calibration, supporting their suitability for integrated computational pathology workflows.
+The multimodal framework improved class boundary definition and reduced inter-class misclassification compared with the unimodal model.
 
-👩‍⚕️ Explainability — Grad-CAM and SHAP
-Grad-CAM Findings
-Highlighted large atypical cells, mitotic figures, angiocentric infiltration, and necrotic areas—the same features used by pathologists.
-Provided biologically meaningful activation maps across all CNN architectures.
-Grad-CAM-Based XGBoost
-Internal: F1 0.742
-External: F1 0.819
-AUC: 0.847
-Demonstrating that Grad-CAM can supply structured, diagnostically relevant features.
-For the CellViT++ architecture, attention mechanisms inherently provided spatial interpretability by modelling long-range contextual dependencies, complementing gradient-based explainability methods applied to CNN-based models.
+7.4 External Validation Cohort A
 
-4. Intended Use
+The first external validation cohort demonstrated strong multicentre generalisation.
+
+| Metric             | Value |
+| ------------------ | ----- |
+| Accuracy           | 0.84  |
+| Weighted precision | 0.84  |
+| Weighted recall    | 0.84  |
+| Weighted F1-score  | 0.83  |
+| Balanced accuracy  | 0.84  |
+| Cohen’s kappa      | 0.79  |
+| Sensitivity        | 0.84  |
+| Specificity        | 0.89  |
+
+
+Class-wise ROC AUC:
+
+| Class                          | AUC  |
+| ------------------------------ | ---- |
+| Aggressive B-cell lymphoma     | 0.88 |
+| T/NK-cell lymphoma             | 0.85 |
+| Indolent/small B-cell lymphoma | 0.85 |
+| Reactive lesions               | 0.78 |
+
+7.5 External Validation Cohort B
+
+The second external validation cohort showed a modest performance reduction, likely reflecting real-world variability in slide preparation, scanner platform, and tissue processing.
+
+| Metric             | Value |
+| ------------------ | ----- |
+| Accuracy           | 0.79  |
+| Weighted precision | 0.79  |
+| Weighted recall    | 0.79  |
+| Weighted F1-score  | 0.78  |
+| Balanced accuracy  | 0.79  |
+| Cohen’s kappa      | 0.71  |
+| Sensitivity        | 0.79  |
+| Specificity        | 0.83  |
+
+Class-wise ROC AUC:
+
+| Class                          | AUC  |
+| ------------------------------ | ---- |
+| Aggressive B-cell lymphoma     | 0.84 |
+| T/NK-cell lymphoma             | 0.82 |
+| Indolent/small B-cell lymphoma | 0.81 |
+| Reactive lesions               | 0.75 |
+
+Despite increased heterogeneity, the multimodal framework maintained good external validation performance.
+
+8. Explainability
+
+SHAP was used to quantify the contribution of each input variable to model predictions.
+
+The most influential features were:
+Nuclear area
+Nuclear perimeter
+Nuclear eccentricity
+Circularity
+
+Clinical variables such as age, sex, and anatomical location showed comparatively lower SHAP magnitudes.
+The prominence of nuclear area and related morphometric features is biologically consistent with established pathological criteria for high-grade lymphomas, where increased nuclear size, pleomorphism, and chromatin irregularity are diagnostically relevant.
+This supports the interpretability and biological plausibility of the multimodal model.
+
+9. AI-Guided Diagnostic Workflow
+
+The model outputs were incorporated into a structured diagnostic support workflow.
+
+The model generates probabilistic predictions across four diagnostic categories:
+Aggressive B-cell lymphoma
+Indolent/small B-cell lymphoma
+NK/T-cell lymphoma
+Reactive lesion
+
+High-confidence predictions guide targeted first-line immunohistochemical panels.
+Intermediate or uncertain predictions trigger reflex immunohistochemical testing.
+
+Persistently ambiguous cases are escalated to molecular testing, including:
+FISH for MYC, BCL2, BCL6, and CCND1 rearrangements
+PCR-based clonality assays for IGH/TCR
+EBV detection using EBER in situ hybridisation
+The system is intended to support pathologist decision-making and optimise diagnostic workflows, not to replace expert interpretation.
+
+10. Intended Use
+
 This model is intended for:
-Supporting differential diagnosis between DLBCL and ENKTCL-NT
-Enhancing triage, especially in low-resource settings
-Research and educational applications in computational pathology
-Morphological feature exploration via explainability methods
-Not for clinical deployment or autonomous diagnosis.
-Although CellViT++ demonstrated strong performance, its use remains restricted to research and decision-support contexts and should not be interpreted as a replacement for expert pathological assessment.
+Research in computational pathology
+Evaluation of multimodal AI approaches in hematopathology
+Educational demonstrations of AI-assisted diagnostic workflows
+Development of decision-support systems for lymphoid lesion classification
 
-5. Limitations
-Moderate sample size, despite external validation.
-Morphological heterogeneity may not fully represent global population diversity.
-Segmentation errors may propagate into classification.
-Patch-based inference cannot fully capture architectural patterns.
-No integration of immunophenotypic or molecular biomarkers.
-Vision transformer models such as CellViT++ require higher computational resources and may be more sensitive to dataset size compared with conventional CNN architectures.
+This model is not intended for:
+Autonomous clinical diagnosis
+Replacement of specialist pathologist review
+Direct clinical deployment without further validation
+Use on unvalidated populations or scanner/staining settings
 
-6. Potential Biases
-Geographic bias: data originates from specific regions where ENKTCL-NT prevalence differs.
-Institutional variability in staining protocols, scanners, and fixation.
-Sampling bias from ROIs focused on high-density tumor regions.
-Class balance maintained only at patient level; patch counts naturally differ.
+11. Limitations
 
-7. Ethical & Responsible AI Considerations
-Outputs are assistive and must not replace expert review.
-All data were anonymized and used in compliance with institutional approvals.
-Explainability (SHAP & Grad-CAM) enhances transparency.
-Further testing in diverse clinical environments is required.
-Intended for research only, not for diagnostic decision-making.
+Key limitations include:
+Retrospective study design
+Multicentre variability in staining, scanning, and tissue processing
+Potential residual institutional bias
+Limited availability of external validation cohorts
+No public release of whole-slide images due to ethical restrictions
+Dependence on quality of ROI selection and tissue preservation
+Model outputs require expert pathological interpretation
+
+Although the model demonstrated good external performance, further validation across larger and more diverse international cohorts is required.
+
+12. Potential Biases
+
+Potential sources of bias include:
+Institutional differences in tissue processing
+Scanner-specific image characteristics
+Variation in staining intensity
+Uneven diagnostic category distribution
+Geographic differences in lymphoma prevalence
+Selection bias from available archival material
+ROI-based sampling bias
+
+Centre-aware splitting was used to reduce data leakage and support robust external validation.
+
+13. Ethical and Responsible AI Considerations
+
+All data were anonymised and used under institutional ethical approval and data transfer agreements.
+Due to patient privacy regulations and institutional policies:
+Whole-slide images are not publicly distributed
+Raw clinicopathological data are not publicly shared
+Patient-identifiable metadata are not included in this repository
+The model is intended as a research and decision-support tool only.
+Predictions must always be interpreted by qualified pathologists in conjunction with histology, immunohistochemistry, molecular findings, and clinical context.
+
+14. Model Availability
+
+This repository provides:
+Model architecture code
+Inference scripts
+Data organisation examples
+Evaluation utilities
+Documentation for reproducibility
+
+This repository does not provide:
+Patient-identifiable data
+Raw whole-slide images
+Private clinical datasets
+Institutional diagnostic files
+Protected health information
+
+15. Citation
+If you use this repository, please cite the associated manuscript and acknowledge the use of UNI and CellViT++ according to their original publications and licences.
