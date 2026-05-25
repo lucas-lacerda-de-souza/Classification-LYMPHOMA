@@ -1,7 +1,7 @@
-# 🧠 Computationally Explainable Multimodal Deep Learning for Histopathological Classification of Head and Neck Lymphoid Lesions
+# 🧠 When Artificial Intelligence Falls Short: Improving Head and Neck Lymphoma Classification through Multimodal Analysis in a Multicenter Cohort.
 
 **Author:** Lucas Lacerda de Souza
-**Year:** 2025
+**Year:** 2026
 
 ---
 
@@ -37,8 +37,6 @@ The pipeline integrates:
 
 The system was developed as a research-oriented decision-support framework for computational hematopathology and is not intended for autonomous clinical diagnosis.
 
----
-
 # 🔬 Computational Pipeline
 
 The computational framework integrates:
@@ -54,8 +52,6 @@ The computational framework integrates:
 9. External multicentre validation
 
 The workflow combines image-derived representations, nuclear morphology, and structured clinicopathological variables into a unified multimodal classification framework.
-
----
 
 # 🖥️ Environment and Hardware
 
@@ -78,8 +74,6 @@ The environment supports:
 * Large-scale histopathological workflows
 * Mixed precision optimisation
 
----
-
 # 📦 Environment and Dependencies
 
 ## Conda Channels
@@ -89,8 +83,6 @@ conda config --add channels pytorch
 conda config --add channels nvidia
 conda config --add channels defaults
 ```
-
----
 
 ## Core Dependencies
 
@@ -120,8 +112,6 @@ These libraries were used for:
 * Explainability
 * Visualisation
 
----
-
 # 🧠 Model Architectures
 
 The repository includes the following computational frameworks:
@@ -135,8 +125,6 @@ The repository includes the following computational frameworks:
 | XGBoost + SHAP          | Traditional machine learning and explainability           |
 
 CellViT++ and UNI were used using their original implementations without architectural modifications. Only downstream integration, inference, and analysis pipelines are included in this repository.
-
----
 
 # 🧬 Features Used
 
@@ -167,8 +155,6 @@ The multimodal framework integrates:
 * Age
 * Sex
 * Anatomical location
-
----
 
 # 📊 Evaluation Metrics
 
@@ -204,122 +190,6 @@ The computational framework supports evaluation using:
 * Attention-based interpretability
 * Feature attribution analysis
 
----
-
-# 📊 Results Summary
-
-## Nuclear Segmentation Performance
-
-CellViT++ demonstrated robust segmentation performance:
-
-| Metric           | Value     |
-| ---------------- | --------- |
-| Dice coefficient | 0.91      |
-| Dice range       | 0.86–0.95 |
-| IoU              | 0.84      |
-| IoU range        | 0.78–0.90 |
-
----
-
-## Morphometric Analysis
-
-Aggressive B-cell lymphomas demonstrated:
-
-* Increased nuclear area
-* Increased nuclear perimeter
-* Higher eccentricity
-* Increased hematoxylin optical density
-
-Compared with NK/T-cell lymphomas, DLBCL nuclei were significantly larger and more elongated.
-
----
-
-## Traditional Machine Learning
-
-XGBoost integrating clinicopathological and morphometric variables achieved:
-
-| Metric    | Value |
-| --------- | ----- |
-| Accuracy  | 0.829 |
-| ROC AUC   | 0.945 |
-| F1-score  | 0.829 |
-| Precision | 0.810 |
-| Recall    | 0.850 |
-
-SHAP identified:
-
-* Nuclear area
-* Hematoxylin optical density
-* Patient age
-
-as the most influential variables.
-
----
-
-## Multimodal Deep Learning
-
-The multimodal framework demonstrated superior performance compared with unimodal H&E-only analysis.
-
-| Metric             | Value |
-| ------------------ | ----- |
-| Accuracy           | 0.91  |
-| Weighted Precision | 0.91  |
-| Weighted Recall    | 0.91  |
-| Weighted F1-score  | 0.91  |
-| Balanced Accuracy  | 0.90  |
-| Cohen’s κ          | 0.88  |
-
-### Class-wise ROC AUC
-
-| Class                          | AUC   |
-| ------------------------------ | ----- |
-| Aggressive B-cell lymphoma     | 0.905 |
-| T/NK-cell lymphoma             | 0.880 |
-| Indolent/small B-cell lymphoma | 0.870 |
-| Reactive lesions               | 0.811 |
-
----
-
-## External Validation
-
-### External Validation Cohort A
-
-| Metric            | Value |
-| ----------------- | ----- |
-| Accuracy          | 0.84  |
-| Weighted F1-score | 0.83  |
-| Cohen’s κ         | 0.79  |
-
-### External Validation Cohort B
-
-| Metric            | Value |
-| ----------------- | ----- |
-| Accuracy          | 0.79  |
-| Weighted F1-score | 0.78  |
-| Cohen’s κ         | 0.71  |
-
-The framework maintained robust multicentre generalisation despite institutional variability in:
-
-* Scanner platforms
-* Staining protocols
-* Tissue preparation
-
----
-
-## Explainability Analysis
-
-SHAP analysis demonstrated that:
-
-* Nuclear area
-* Nuclear perimeter
-* Eccentricity
-
-were the most influential features driving model predictions.
-
-These findings align with established WHO morphological criteria for aggressive lymphoid neoplasms and support the biological interpretability of the framework.
-
----
-
 # 📂 Repository Structure
 
 ```text
@@ -334,8 +204,6 @@ REQUIREMENTS.txt         → Dependency list
 LICENSE.txt              → Repository license
 ```
 
----
-
 # 🚀 Installation
 
 ## Clone Repository
@@ -346,8 +214,6 @@ git clone https://github.com/lucas-lacerda-de-souza/Classification-LYMPHOMA.git
 cd Classification-LYMPHOMA
 ```
 
----
-
 ## Create Environment
 
 ```bash
@@ -355,8 +221,6 @@ conda env create -f environment.yml
 
 conda activate lymphoma-ai
 ```
-
----
 
 # ⚡ Quick Start
 
@@ -367,8 +231,6 @@ python INFERENCE.py \
     --input_dir ./data/example_slides \
     --output_dir ./results/
 ```
-
----
 
 # 🧠 Compliance with TRIPOD-AI and CLAIM Guidelines
 
@@ -394,8 +256,6 @@ The repository includes:
 * Ethical considerations
 * Intended use statements
 
----
-
 # ⚖️ Ethics
 
 This study was approved by:
@@ -407,10 +267,7 @@ This study was approved by:
   Protocol: `20/WS/0017`
 
 The study followed the principles of the Declaration of Helsinki.
-
 All collected data were fully anonymised.
-
----
 
 # 🔒 Data Availability
 
@@ -427,8 +284,6 @@ To support reproducibility, this repository provides:
 * Example inference pipelines
 * Documentation and reproducibility guidelines
 
----
-
 # 💻 Code Availability
 
 The complete computational framework is publicly available on GitHub:
@@ -442,8 +297,6 @@ The repository includes:
 * Evaluation pipelines
 * Explainability workflows
 * Documentation
-
----
 
 # 🧠 Model Weights
 
@@ -464,9 +317,9 @@ Available resources include:
 
 ```bibtex
 @article{delasouza2025lymphoma,
-  title={Computationally Explainable Multimodal Deep Learning for Histopathological Classification of Head and Neck Lymphoid Lesions},
+  title={When Artificial Intelligence Falls Short: Improving Head and Neck Lymphoma Classification through Multimodal Analysis in a Multicenter Cohort},
   author={Souza, Lucas Lacerda de and collaborators},
-  journal={2025},
-  year={2025}
+  journal={2026},
+  year={2026}
 }
 ```
