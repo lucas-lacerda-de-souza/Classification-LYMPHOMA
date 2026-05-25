@@ -1,5 +1,5 @@
 """
-When Artificial Intelligence Falls Short: Improving Head and Neck Lymphoma Classification through Multimodal Analysis in a Multicenter Cohort
+Head and Neck Lymphoma Classification through Multimodal Analysis 
 ----------------------------------------------------------------------------------
 Author: Lucas Lacerda de Souza
 
