@@ -39,6 +39,8 @@ The system was developed as a research-oriented decision-support framework for c
 
 # 🔬 Computational Pipeline
 
+<img width="642" height="824" alt="Figure 1" src="https://github.com/user-attachments/assets/f0e1686b-78ad-4133-9c66-4812e3055cb0" />
+
 The computational framework integrates:
 
 1. Whole-slide image preprocessing
