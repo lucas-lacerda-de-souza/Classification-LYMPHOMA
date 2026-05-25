@@ -1,251 +1,472 @@
-**Computationally Explainable Multimodal Deep Learning for Discriminative Histopathological Classification of Head and Neck B-Cell and T-Cell Lymphomas** 
+# 🧠 Computationally Explainable Multimodal Deep Learning for Histopathological Classification of Head and Neck Lymphoid Lesions
 
-Author: Lucas Lacerda de Souza
+**Author:** Lucas Lacerda de Souza
+**Year:** 2025
 
-Year: 2025
-________________________________________
-**1. Project Overview**
+---
 
-Multimodal AI pipeline for classifying Diffuse Large B Cell Lymphoma (DLBCL) and Extranodal Natural Killet T Cell Lymphoma, Nasal Type (ENKTCL-NT) using histopathological image patches, clinicopathological data, and nuclear morphometric features. The pipeline combines: Traditional machine learning (XGBoost with SHAP), Deep learning (CNNs + multilayer perceptron), Vision Transformer–based cell modelling (CellViT++), Explainable AI methods (Grad-CAM and SHAP).
+# 📘 Project Overview
 
-________________________________________
-**2. Pipeline**
+This repository presents a computationally explainable multimodal artificial intelligence framework developed for the histopathological classification of head and neck lymphoid lesions using:
 
+* Histopathological H&E image analysis
+* Nuclear morphometric descriptors
+* Clinicopathological variables
+* Vision transformer–based segmentation
+* Attention-based multiple instance learning (MIL)
+* Explainable artificial intelligence approaches
 
-<img width="1109" height="828" alt="Figure 1" src="https://github.com/user-attachments/assets/f8d41bce-d94e-472d-a172-8d9dd902477f" />
+The framework was designed to classify four diagnostic categories:
 
+| Class | Diagnostic Category            |
+| ----- | ------------------------------ |
+| 0     | Aggressive B-cell lymphoma     |
+| 1     | Indolent/small B-cell lymphoma |
+| 2     | NK/T-cell lymphoma             |
+| 3     | Reactive lymphoid lesion       |
 
+The pipeline integrates:
 
-________________________________________
-**3. Environment and Hardware**
+* UNI foundation model embeddings
+* CellViT++ nuclear segmentation
+* Morphometric feature extraction
+* Multimodal deep learning
+* SHAP explainability analysis
+* Attention-based MIL aggregation
+* AI-guided diagnostic support workflows
+
+The system was developed as a research-oriented decision-support framework for computational hematopathology and is not intended for autonomous clinical diagnosis.
+
+---
+
+# 🔬 Computational Pipeline
+
+The computational framework integrates:
+
+1. Whole-slide image preprocessing
+2. Patch extraction from H&E slides
+3. UNI foundation model feature extraction
+4. CellViT++ nuclear segmentation
+5. Morphometric feature extraction
+6. Multimodal fusion learning
+7. Attention-based MIL aggregation
+8. SHAP explainability analysis
+9. External multicentre validation
+
+The workflow combines image-derived representations, nuclear morphology, and structured clinicopathological variables into a unified multimodal classification framework.
+
+---
+
+# 🖥️ Environment and Hardware
 
 All experiments were performed using the following configuration:
 
-**Operating System:** Ubuntu 20.04.1 LTS
+| Component        | Specification                    |
+| ---------------- | -------------------------------- |
+| Operating System | Ubuntu 20.04.1 LTS               |
+| Python           | 3.12.11                          |
+| PyTorch          | 2.8.0 (CUDA 12.8)                |
+| CPU              | Intel Xeon W-2295                |
+| RAM              | 125 GB                           |
+| GPU              | 3 × NVIDIA RTX 3090 (24 GB each) |
 
-**Python Version:** 3.12.11
+The environment supports:
 
-**PyTorch Version:** 2.8.0 (CUDA 12.8)
+* Multi-GPU training
+* Vision transformer inference
+* Whole-slide image processing
+* Large-scale histopathological workflows
+* Mixed precision optimisation
 
-**CPU:** Intel Xeon W-2295 (18 cores / 36 threads)
+---
 
-**RAM:** 125 GB
+# 📦 Environment and Dependencies
 
-**GPUs:** 3 × NVIDIA GeForce RTX 3090 (24 GB each)
-________________________________________
-**4. Environment Files**
+## Conda Channels
 
-**Channels:**
+```bash
+conda config --add channels pytorch
+conda config --add channels nvidia
+conda config --add channels defaults
+```
 
-  • pytorch
-  
-  • nvidia
-  
-  • defaults
-  
-**Dependencies:**
+---
 
-  • python=3.12.11
-  
-  • pytorch=2.8.0
-  
-  • torchvision=0.19.0
-  
-  • torchaudio=2.8.0
-  
-  • cudatoolkit=12.8
-  
-  • numpy=1.26.4
-  
-  • pandas=2.2.3
-  
-  • scikit-learn=1.5.2
-  
-  • matplotlib=3.9.2
-  
-  • seaborn=0.13.2
-  
-  • pillow=10.4.0
-  
-  • tqdm=4.66.5
-  
-  • openpyxl=3.1.5
-________________________________________
-**5. Model Architectures**
+## Core Dependencies
 
-•	XGBoost + SHAP
+```bash
+python=3.12.11
+pytorch=2.8.0
+torchvision=0.19.0
+torchaudio=2.8.0
+cudatoolkit=12.8
+numpy=1.26.4
+pandas=2.2.3
+scikit-learn=1.5.2
+matplotlib=3.9.2
+seaborn=0.13.2
+pillow=10.4.0
+tqdm=4.66.5
+openpyxl=3.1.5
+```
 
-•	U-Net++
+These libraries were used for:
 
-•	AlexNet + Multilayer perceptron
+* Deep learning
+* Whole-slide image analysis
+* Nuclear morphometry
+* Segmentation
+* Statistical analysis
+* Explainability
+* Visualisation
 
-•	ResNet50 + Multilayer perceptron
+---
 
-•	ConvNeXt-XLarge + Multilayer perceptron
+# 🧠 Model Architectures
 
-•	CellViT++
+The repository includes the following computational frameworks:
 
-•	GradCam
+| Model                   | Purpose                                                   |
+| ----------------------- | --------------------------------------------------------- |
+| UNI Foundation Model    | Histopathological feature extraction                      |
+| CellViT++               | Nuclear instance segmentation                             |
+| Attention-based MIL     | Slide-level aggregation                                   |
+| Multimodal Fusion Model | Integration of image, morphometric, and clinical features |
+| XGBoost + SHAP          | Traditional machine learning and explainability           |
 
-Note: CellViT++ are established architectures. Their original implementations were used without architectural modification. Only inference, downstream analysis, and integration code are included in this repository.
+CellViT++ and UNI were used using their original implementations without architectural modifications. Only downstream integration, inference, and analysis pipelines are included in this repository.
 
-________________________________________
-**6. Features Used**
+---
 
-• H&E image patches (299 × 299 pixels, 20×)
+# 🧬 Features Used
 
-• Segmented patches (U-Net++)
+The multimodal framework integrates:
 
-• Cell-level embeddings and nuclear masks (CellViT++)
+## Histopathological Features
 
-• Nucleus-based morphometric features
+* H&E image patches
+* Whole-slide image representations
+* UNI-derived embeddings
+* Attention-based spatial representations
 
-• Clinicopathological features (age, sex, lesion location)
+## Segmentation Features
 
-________________________________________
-**7. Evaluation Metrics**
-   
-•	XGBoost + SHAP – Classification (accuracy, area under the curve (AUC), F1-score, precision, recall and SHAP).
+* Nuclear masks
+* Cell-level embeddings
+* CellViT++ segmentation outputs
 
-•	U-Net++/CellVit++ (Loss, Accuracy, Precision, Recall, IoU and Dice coefficient).
+## Morphometric Features
 
-•	AlexNet (Loss, Accuracy, Precision, Recall, Confusion matrix (TP, FN, FP, TN), F1-score, Specificity, Receiver operating characteristic – area under the curve (ROC AUC) and Cohen's Kappa).
+* Nuclear area
+* Nuclear perimeter
+* Circularity
+* Eccentricity
 
-•	ResNet50 (Loss, Accuracy, Precision, Recall, Confusion matrix (TP, FN, FP, TN), F1-score, Specificity, Receiver operating characteristic – area under the curve (ROC AUC) and Cohen's Kappa).
+## Clinicopathological Features
 
-•	ConvNeXt-XLarge (Loss, Accuracy, Precision, Recall, Confusion matrix (TP, FN, FP, TN), F1-score, Specificity, Receiver operating characteristic – area under the curve (ROC AUC) and Cohen's Kappa).
+* Age
+* Sex
+* Anatomical location
 
-•	GradCam - XGBoost - Classification (accuracy, area under the curve (AUC), F1-score, precision, recall). 
+---
 
-________________________________________
+# 📊 Evaluation Metrics
 
-**8. Repository Structure**
-   
-## 📂 Repository Structure
+The computational framework supports evaluation using:
 
-DATA - Data used in the training
+## Classification Metrics
 
-MODELS - Models used in the study
+* Accuracy
+* Precision
+* Recall
+* Weighted F1-score
+* Sensitivity
+* Specificity
+* ROC AUC
+* Cohen’s kappa
+* Balanced accuracy
 
-RESULTS - Results of the study
+## Segmentation Metrics
 
-INFERENCE.py — Inference Script Example
+* Dice coefficient
+* Intersection over Union (IoU)
+* Precision
+* Recall
 
-LICENSE.txt — Project license
+## Calibration Metrics
 
-MODEL_CARD.txt — Description of the essential information of the study
+* Expected calibration error (ECE)
+* Brier score
 
-README.md — Documentation and usage instructions
+## Explainability
 
-REQUIREMENTS.txt — Dependencies
+* SHAP feature importance
+* Attention-based interpretability
+* Feature attribution analysis
 
-________________________________________
+---
 
-**9. Installation**
+# 📊 Results Summary
 
-git clone https://github.com/lucas-lacerda-de-souza/Classification-DLBCL-ENKTCL-NT.git
-cd Classification-DLBCL-ENKTCL-NT
+## Nuclear Segmentation Performance
 
-________________________________________
+CellViT++ demonstrated robust segmentation performance:
 
-**10. Quick Start Guide**
+| Metric           | Value     |
+| ---------------- | --------- |
+| Dice coefficient | 0.91      |
+| Dice range       | 0.86–0.95 |
+| IoU              | 0.84      |
+| IoU range        | 0.78–0.90 |
 
-**10.1. Clone the repository**
+---
 
-git clone https://github.com/lucas-lacerda-de-souza/Classification-DLBCL-ENKTCL-NT.git
-cd Classification-DLBCL-ENKTCL-NT
+## Morphometric Analysis
 
-**10.2. Create and activate the environment**
+Aggressive B-cell lymphomas demonstrated:
 
+* Increased nuclear area
+* Increased nuclear perimeter
+* Higher eccentricity
+* Increased hematoxylin optical density
+
+Compared with NK/T-cell lymphomas, DLBCL nuclei were significantly larger and more elongated.
+
+---
+
+## Traditional Machine Learning
+
+XGBoost integrating clinicopathological and morphometric variables achieved:
+
+| Metric    | Value |
+| --------- | ----- |
+| Accuracy  | 0.829 |
+| ROC AUC   | 0.945 |
+| F1-score  | 0.829 |
+| Precision | 0.810 |
+| Recall    | 0.850 |
+
+SHAP identified:
+
+* Nuclear area
+* Hematoxylin optical density
+* Patient age
+
+as the most influential variables.
+
+---
+
+## Multimodal Deep Learning
+
+The multimodal framework demonstrated superior performance compared with unimodal H&E-only analysis.
+
+| Metric             | Value |
+| ------------------ | ----- |
+| Accuracy           | 0.91  |
+| Weighted Precision | 0.91  |
+| Weighted Recall    | 0.91  |
+| Weighted F1-score  | 0.91  |
+| Balanced Accuracy  | 0.90  |
+| Cohen’s κ          | 0.88  |
+
+### Class-wise ROC AUC
+
+| Class                          | AUC   |
+| ------------------------------ | ----- |
+| Aggressive B-cell lymphoma     | 0.905 |
+| T/NK-cell lymphoma             | 0.880 |
+| Indolent/small B-cell lymphoma | 0.870 |
+| Reactive lesions               | 0.811 |
+
+---
+
+## External Validation
+
+### External Validation Cohort A
+
+| Metric            | Value |
+| ----------------- | ----- |
+| Accuracy          | 0.84  |
+| Weighted F1-score | 0.83  |
+| Cohen’s κ         | 0.79  |
+
+### External Validation Cohort B
+
+| Metric            | Value |
+| ----------------- | ----- |
+| Accuracy          | 0.79  |
+| Weighted F1-score | 0.78  |
+| Cohen’s κ         | 0.71  |
+
+The framework maintained robust multicentre generalisation despite institutional variability in:
+
+* Scanner platforms
+* Staining protocols
+* Tissue preparation
+
+---
+
+## Explainability Analysis
+
+SHAP analysis demonstrated that:
+
+* Nuclear area
+* Nuclear perimeter
+* Eccentricity
+
+were the most influential features driving model predictions.
+
+These findings align with established WHO morphological criteria for aggressive lymphoid neoplasms and support the biological interpretability of the framework.
+
+---
+
+# 📂 Repository Structure
+
+```text
+DATA/                    → Synthetic example data and directory structures
+MODELS/                  → Model architectures and inference pipelines
+RESULTS/                 → Study results and supplementary outputs
+
+INFERENCE.py             → Inference script
+MODEL_CARD.md            → Model documentation
+README.md                → Repository documentation
+REQUIREMENTS.txt         → Dependency list
+LICENSE.txt              → Repository license
+```
+
+---
+
+# 🚀 Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/lucas-lacerda-de-souza/Classification-LYMPHOMA.git
+
+cd Classification-LYMPHOMA
+```
+
+---
+
+## Create Environment
+
+```bash
 conda env create -f environment.yml
-conda activate dlbcl-enktcl-ai
 
-**10.3. Run inference**
+conda activate lymphoma-ai
+```
 
-python inference.py --input_dir ./data/test/ --output_dir ./results/
+---
 
-**10.4. Generate Grad-CAM heatmaps**
+# ⚡ Quick Start
 
-python scripts/visualize_gradcam.py \
-  --model resnet50 \
-  --input_dir ./data/test/ \
-  --output_dir ./gradcam/heatmaps/
-________________________________________
+## Run Inference
 
-**11. Compliance with TRIPOD-AI and CLAIM 2024 Guidelines**
+```bash
+python INFERENCE.py \
+    --input_dir ./data/example_slides \
+    --output_dir ./results/
+```
 
-This repository has been structured to meet the TRIPOD-AI (Transparent Reporting of a multivariable prediction model for Individual Prognosis Or Diagnosis – 
-AI extension) and CLAIM 2024 (Checklist for Artificial Intelligence in Medical Imaging) requirements for transparent and reproducible AI in healthcare.
+---
 
-**Data Source and Splits**
+# 🧠 Compliance with TRIPOD-AI and CLAIM Guidelines
 
-Detailed in README.md → Dataset Organization and METHODS.md.
-Data divided into 80% training, 10% validation, and 10% testing.
-Two independent external validation cohorts used to assess generalizability.
+This repository was structured according to:
 
-**Model Architecture and Training**
+* TRIPOD-AI
+* CLAIM 2024
 
-Documented in /models and individual training scripts.
-Includes optimizer (AdamW), learning rate, batch size, epochs, and loss functions.
+to improve:
 
-**Performance Metrics**
+* Transparency
+* Reproducibility
+* Explainability
+* Clinical interpretability
 
-Internal and external validation results summarized in /results
-Cross-institutional evaluation demonstrates robustness to domain shifts.
+The repository includes:
 
-**Interpretability and Explainability**
+* Dataset organisation
+* Model architecture documentation
+* Training configuration
+* External validation
+* Explainability methods
+* Ethical considerations
+* Intended use statements
 
-SHAP feature importance for XGBoost models and Grad-CAM heatmaps for CNNs included.
-Code and examples available in /models and /data.
+---
 
-**Clinical and Biological Relevance**
+# ⚖️ Ethics
 
-Described in MODEL_CARD.md → Intended Use.
-Designed to assist diagnostic workflows, not to replace expert evaluation.
+This study was approved by:
 
-**Limitations and Potential Biases**
+* Piracicaba Dental School, University of Campinas, Brazil
+  Protocol: `67064422.9.1001.5418`
 
-Outlined in MODEL_CARD.
-Includes dataset size, center-specific staining differences, and potential bias from single-institution data predominance.
+* West of Scotland Research Ethics Service
+  Protocol: `20/WS/0017`
 
-**Ethical Considerations**
+The study followed the principles of the Declaration of Helsinki.
 
-Discussed in MODEL_CARD.md → Ethical and Practical Considerations.
-Model not intended for autonomous clinical use; human oversight required at all stages.
+All collected data were fully anonymised.
 
-________________________________________
+---
 
-**12. Ethics**
+# 🔒 Data Availability
 
-This study was approved by the Ethics Committee of the Piracicaba Dental School, University of Campinas, Piracicaba, Brazil (protocol no. 67064422.9.1001.5418), 
-and by the West of Scotland Research Ethics Service (20/WS/0017). The study was performed according to the clinical standards of the 1975 and 1983 Declaration of Helsinki. 
-Written consent was not required as data was collected from surplus archived tissue. Data collected were fully anonymised.
+Due to ethical restrictions and patient confidentiality regulations:
 
-________________________________________
+* Whole-slide images are not publicly distributed
+* Raw clinical metadata are not publicly shared
+* Patient-identifiable data are not included
 
-**13. Data availability**
+To support reproducibility, this repository provides:
 
-All the data derived from this study are included in the manuscript. We are unable to share the whole slide images and clinical data, due to restrictions in the 
-ethics applications. However, we created synthetic slides to show the structure of the project.
+* Synthetic organisational examples
+* Representative patch structures
+* Example inference pipelines
+* Documentation and reproducibility guidelines
 
-________________________________________
+---
 
-**14. Code availability**
+# 💻 Code Availability
 
-We have made the codes publicly available online, along with model weights ([https://github.com/lucas-lacerda-de-souza/Classification-RFH-and-FL](https://github.com/lucas-lacerda-de-souza/Classification-DLBCL-ENKTCL-NT)). All code was written 
-with Python Python 3.12.11, along with PyTorch 2.8.0. The full implementation of the model, including the code and documentation, has been deposited in the Zenodo repository 
-and is publicly available (https://doi.org/10.5281/zenodo.17661989). 
+The complete computational framework is publicly available on GitHub:
 
-________________________________________
-**15. Citation**
+[https://github.com/lucas-lacerda-de-souza/Classification-LYMPHOMA](https://github.com/lucas-lacerda-de-souza/Classification-LYMPHOMA)
 
-@article{delasouza2025classification,
-  title={Computationally Explainable Multimodal Deep Learning for Discriminative Histopathological Classification of Head and Neck B-Cell and T-Cell Lymphomas},
-  author={Souza, Lucas Lacerda de, Chen, Zhiyang […] Khurram, Syed Ali and Vargas, Pablo Agustin},
-  journal={(journal/ 2025)},
+The repository includes:
+
+* Inference scripts
+* Model architectures
+* Evaluation pipelines
+* Explainability workflows
+* Documentation
+
+---
+
+# 🧠 Model Weights
+
+Pretrained weights and checkpoints are available through Zenodo:
+
+[https://doi.org/10.5281/zenodo.17661989](https://doi.org/10.5281/zenodo.17661989)
+
+Available resources include:
+
+* UNI checkpoints
+* MIL models
+* CellViT++ segmentation weights
+* Multimodal classifiers
+
+---
+
+# 📚 Citation
+
+```bibtex
+@article{delasouza2025lymphoma,
+  title={Computationally Explainable Multimodal Deep Learning for Histopathological Classification of Head and Neck Lymphoid Lesions},
+  author={Souza, Lucas Lacerda de and collaborators},
+  journal={2025},
   year={2025}
 }
-________________________________________
-**16. License**
-
-MIT License © 2025 Lucas Lacerda de Souza
+```
