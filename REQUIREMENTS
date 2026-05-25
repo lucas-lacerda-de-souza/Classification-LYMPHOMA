@@ -1,95 +1,112 @@
-System Requirements
-• Operating System
-Ubuntu 20.04.1 LTS (64-bit)
-Fully compatible with CUDA, PyTorch, multi-GPU training, and large-scale histopathology workflows.
+⚙️ System Requirements
+Operating System
 
-• Programming Language
+The computational framework was developed and validated using:
+- Ubuntu 20.04.1 LTS (64-bit)
+The operating system configuration is fully compatible with:
+- CUDA-enabled GPU acceleration
+- PyTorch-based deep learning pipelines
+- Multi-GPU distributed training
+- Whole-slide image (WSI) processing
+- Large-scale computational pathology workflows
+
+🐍 Programming Environment
+Programming Language
 Python 3.12.11
 
-• Frameworks and Libraries
-Core Deep Learning Stack
-PyTorch 2.8.0 (CUDA 12.8)
-TorchVision 0.19.0
-TorchAudio 2.8.0
+📚 Frameworks and Libraries
+Deep Learning Frameworks
 
-Data Handling and Processing
-NumPy 1.26.4
-Pandas 2.2.3
-OpenPyXL 3.1.5 (for clinical Excel metadata)
+| Package | Version |
+|-------------|---------|
+|   PyTorch   |  2.8.0  |
+| TorchVision | 0.19.0  |
+|  TorchAudio |  2.8.0  |
+|     CUDA    |   12.8  |
 
-Visualization
-Matplotlib 3.9.2
-Seaborn 0.13.2
+These libraries were used for:
 
-Image Processing
-Pillow 10.4.0
+- UNI foundation model inference
+- Attention-based MIL aggregation
+- Multimodal deep learning
+- CellViT++ segmentation
+- Multi-GPU training
+- Mixed precision optimisation
+
+Data Processing and Analysis
+
+|  Package  | Version |
+|-----------|---------|
+|   NumPy   | 1.26.4  |
+|  Pandas   |  2.2.3  |
+|  OpenPyXL |  3.1.5  |
+
+These packages were used for:
+
+- Numerical operations
+- Morphometric feature handling
+- Structured clinicopathological metadata
+- Excel-based dataset integration
+
+Visualisation Libraries
+
+|   Package  | Version |
+|------------|---------|
+| Matplotlib |  3.9.2  |
+|   Seaborn  | 0.13.2  |
+
+Used for:
+- ROC curve generation
+- Confusion matrix visualisation
+- Calibration plots
+- SHAP visualisation
+- Statistical graph generation
+
+Histopathological Image Processing
+
+| Package | Version |
+|---------|---------|
+|  Pillow |  10.4.0 |
+
+Used for:
+- Patch extraction
+- Image loading
+- RGB preprocessing
+- Histopathological image transformation
 
 Utilities
-tqdm 4.66.5 (progress bars)
+| Package | Version |
+|---------|---------|
+|   tqdm  |  4.66.5 |
 
-Model Interpretation
-SHAP (installed automatically with scikit-learn-compatible version)
-Grad-CAM (implemented inside this repository)
+Used for:
+- Progress monitoring
+- WSI processing tracking
+- Batch inference monitoring
 
-• Conda / Channel Requirements
-This project was developed with conda and uses:
-pytorch
-nvidia
-defaults
-These channels ensure access to the correct CUDA-enabled builds of PyTorch and TorchVision for multi-GPU training.
+🧠 Explainability and Model Interpretation
 
-• Hardware Requirements
-CPU
-Intel Xeon W-2295
-18 cores / 36 threads — recommended for parallel patch preprocessing, morphometry calculations, and Grad-CAM generation.
+The framework integrates explainability methods for both image-based and structured data analysis.
+SHAP Analysis
+SHAP (SHapley Additive Explanations) was used to evaluate the contribution of:
+- Nuclear morphometric descriptors
+- Clinicopathological variables
+- Structured multimodal inputs
+The SHAP implementation was installed using scikit-learn-compatible versions.
 
-RAM
-125 GB
-Required for WSI handling, U-Net++ segmentation, and multi-model training pipelines.
+Attention-Based Interpretability
+Attention mechanisms implemented within the MIL and CellViT++ frameworks were used to provide spatial interpretability and identification of diagnostically relevant histopathological regions.
 
-GPU
-3 × NVIDIA GeForce RTX 3090 (24 GB each)
-Fully compatible with:
-Multi-GPU DataParallel training
-U-Net++ segmentation
-ConvNeXt-XLarge training
-Large-batch Grad-CAM computation
+The interpretability pipeline supports:
+- Attention heatmaps
+- Feature attribution analysis
+- Morphological pattern exploration
 
-Disk Space
-Minimum 1 TB recommended
-Whole-slide images
-Patch datasets (~299×299)
-Segmentation masks
-Logs and checkpoints
-Multimodal model weights
+🧬 Conda Environment and Channels
+The project was developed using `conda`.
 
-• Software Requirements
-Core Components
-Deep Learning Framework: PyTorch
-Segmentation Framework: U-Net++ with attention (implemented within repository)
-Classification Models:
-AlexNet
-ResNet50
-ConvNeXt-XLarge
-Segmentation-enhanced variants
-Multimodal Fusion Module: PyTorch + Scikit-learn
-Morphometric Extraction: Python + NumPy + SciPy + custom geometry functions
-
-• Model Interpretation:
-SHAP for structured variables
-Grad-CAM for CNN explainability
-Traditional Machine Learning:
-XGBoost (via scikit-learn API)
-
-• Data and Code Availability
-Data
-Due to ethical restrictions and patient confidentiality, WSI datasets cannot be publicly released.
-Synthetic demo data and example patches are provided in the repository for running inference and testing the pipeline.
-
-• Code
-The full multimodal and segmentation framework is available on GitHub: https://github.com/lucas-lacerda-de-souza/Classification-DLBCL-ENKTCL-NT
-
-• Model Weights
-Pretrained models, segmentation weights, and multimodal checkpoints are deposited in Zenodo: https://doi.org/10.5281/zenodo.17661989
-
-
+The following channels are required:
+```bash
+conda config --add channels pytorch
+conda config --add channels nvidia
+conda config --add channels defaults
