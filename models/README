@@ -1,132 +1,173 @@
-📘 Model Categories
-1. Multimodal Deep Learning
-These scripts perform multimodal fusion between CNN features and clinical/morphometric embeddings for patch-level and patient-level classification.
+🧠 Models
+This directory contains the computational pipelines and deep learning frameworks used for the classification of head and neck lymphoid lesions using histopathological image analysis,
+nuclear morphometric features, and clinicopathologic data.
 
-Supported CNN Architectures
-AlexNet
-ResNet50
-ConvNeXt-XLarge
+The repository includes:
+- UNI foundation model pipeline
+- CellViT++ nuclear segmentation framework
+- Multimodal deep learning models
+- SHAP explainability analysis
+- Metrics and evaluation utilities
+The framework was developed for multicentre histopathological datasets and follows TRIPOD-AI and STARD-AI recommendations for AI-based diagnostic studies. 
 
-Scripts
-                Script    	                   │         Level	       │                                 Description
-multimodal_alexnet_patch_level.py	           │         Patch	       │              AlexNet-based multimodal for patch-level prediction.
-multimodal_alexnet_patient_level.py	           │        Patient	       │              Patient-level AlexNet classifier (mean pooled).
-multimodal_resnet50_patch_level.py	           │         Patch	       │          ResNet50 classifier integrating image patches + clinical data.
-multimodal_resnet50_patient_level.py	       │        Patient	       │        Aggregated patient-level inference based on ResNet50 outputs.
-multimodal_convnextxlarge_patch_level.py	   │         Patch	       │               ConvNeXt-XLarge multimodal fusion at patch level.
-multimodal_convnextxlarge_patient_level.py	   │        Patient	       │        ConvNeXt-XLarge patient-level prediction using aggregated patch probabilities.
+🧩 Directory Structure
+models/
+├── uni_pipeline.py
+├── cellvitpp_pipeline.py
+├── shap_analysis.py
+├── metrics.py
+├── data_split.py
+├── requirements.txt
+└── README.md
 
-All multimodal models include:
-Late fusion (CNN + MLP embeddings)
-Weighted cross-entropy for class imbalance
-ROC, AUC, PR curve, confusion matrix generation
-Patch-level and patient-level evaluation
+🔬 UNI Foundation Model Pipeline
+
+The UNI pipeline implements a transformer-based foundation model framework for histopathological image representation learning. Feature extraction is performed using the UNI Vision 
+Transformer (vit_large_patch16_224) operating as a frozen encoder without weight updates.
+
+├── Main characteristics
+─ End-to-end WSI classification
+─ Recursive slide discovery
+─ Patch extraction from WSIs
+─ Attention-based MIL aggregation
+─ Patch-level and patient-level inference
+─ Heatmap generation
+─ Bootstrap confidence intervals
+─ Multi-class classification
+
+├── Input
+─ Whole-slide images (.svs)
+─ Histopathological patches (224 × 224 RGB)
+
+├── Output
+─ Patch embeddings
+─ MIL attention maps
+─ ROC curves
+─ Confusion matrices
+─ Classification reports
+─ Heatmaps
+─ Cached feature tensors
+
+├── Architecture
+─ Patch-level classifier
+Linear(d → 256)
+ReLU
+Dropout(0.3)
+Linear(256 → 4)
+
+─ MIL attention mechanism
+Linear(d → 128)
+Tanh
+Linear(128 → 1)
+Softmax
+
+- Slide-level classifier
+Linear(d → 128)
+ReLU
+Dropout(0.2)
+Linear(128 → 4)
+The UNI configuration and extracted features are fully described in Supplementary Table 7.
+
+🔬 CellViT++ Nuclear Segmentation Pipeline
+
+The CellViT++ framework was used for instance-level nuclear segmentation and downstream morphometric feature extraction. The original architecture was used without modifications to preserve 
+reproducibility and comparability.
+
+├── Main characteristics
+- Vision Transformer–based segmentation
+- Nuclear instance detection
+- Morphometric feature extraction
+- Binary mask generation
+- Extracted morphometric features
+- Nuclear area
+- Nuclear perimeter
+- Circularity
+- Eccentricity
+Morphometric feature extraction and segmentation details are described in Supplementary Table 6.
+
+├── Segmentation performance
+The segmentation framework demonstrated robust performance across heterogeneous tissue samples:
+─ Dice coefficient: 0.91 (range: 0.86–0.95)
+─ IoU: 0.84 (range: 0.78–0.90)
+
+🧬 Multimodal Deep Learning Framework
+The multimodal framework integrates:
+─ Histopathological image embeddings
+─ Nuclear morphometric descriptors
+─ Clinicopathologic variables
+
+├── The fusion strategy combines AlexNet-derived image representations with MLP embeddings generated from morphometric and clinical variables.
+─ Architecture
+─ CNN backbone
+─ Clinical variables
+─ Age
+─ Sex
+─ Anatomical location
+─ Morphometric variables
+─ Nuclear area
+─ Perimeter
+─ Circularity
+─ Eccentricity
+
+🧠 Explainability Analysis
+
+├── Model interpretability was evaluated using SHAP (SHapley Additive exPlanations).
+
+The analysis demonstrated that:
+─ Nuclear morphometric features dominate the model decision space
+─ Nuclear area, perimeter, and eccentricity presented the highest SHAP values
+─ Clinical variables showed comparatively lower contribution
+─ Morphometric descriptors aligned with WHO diagnostic criteria
+These findings support the biological plausibility and interpretability of the multimodal framework.
+
+⚙️ Training Configuration
+─ Computational environment
+Ubuntu 20.04.1 LTS
+Python 3.12.11
+PyTorch 2.8.0
+CUDA 12.8
+Intel Xeon W-2295 CPU
+125 GB RAM
+3 × NVIDIA RTX 3090 GPUs (24 GB each)
+
+─ Training settings
+Optimizer: AdamW
+Learning rate: 1 × 10⁻⁴
+Weight decay: 1 × 10⁻⁴
+Loss function: Weighted Cross-Entropy
+Mixed precision training
 Multi-GPU support (torch.nn.DataParallel)
 
-2. Cell-Level Vision Transformers (CellViT++)
-🔎 Important note on implementation
-CellViT++ are established, peer-reviewed architectures.
-In this study, their original implementations were used without architectural modifications.
+📊 Evaluation Metrics
+─ The framework supports:
+Accuracy
+Weighted precision
+Weighted recall
+Weighted F1-score
+Balanced accuracy
+Cohen’s kappa
+Sensitivity
+Specificity
+ROC AUC
+Confusion matrices
+Calibration metrics
+Bootstrap confidence intervals
 
-For this reason:
-The full source code of CellViT++ is not redistributed in this repository
-Only wrapper scripts and downstream analysis pipelines are provided
-All hyperparameters and configurations used are fully documented below
+🌎 External Validation
+─ The dataset was partitioned into:
+Training cohort
+Validation cohort
+Internal test cohort
+External validation cohort A
+External validation cohort B
+Data splitting was performed in a center-aware manner to minimise data leakage and ensure robust multicentre validation.
 
-Purpose
-Nuclear segmentation
-Cell-level feature extraction
-Morphometric and appearance embeddings
+🧪 AI-Guided Diagnostic Workflow
+The probabilistic outputs generated by the multimodal framework were integrated into a structured diagnostic support workflow guiding immunohistochemical and molecular testing.
 
-Hyperparameters and configuration
-Architecture: Vision Transformer–based (CellViT++)
-Input size: 256 × 256 pixels
-Magnification: 40×
-Pretraining: As provided in the original CellViT++ release
-
-Output:
-Binary nuclear masks
-Cell-level embeddings
-Morphometric descriptors (area, eccentricity, etc.)
-
-Mode: Inference only (no retraining)
-Framework: PyTorch
-Precision: Mixed precision (CUDA)
-
-Usage in this project
-Outputs from CellViT++ are used as inputs for:
-XGBoost models
-Cell Graph Neural Network (Cell-GNN)
-Multimodal learning pipelines
-
-3. Image Segmentation
-Script	Description
-segmentation_unet++.py	U-Net++ with attention for tissue segmentation and ROI extraction prior to patch generation.
-
-4. Classical Machine Learning
-Script	Description
-xgboost_classification_cpc_mpa.R	XGBoost classifier trained on clinicopathologic and morphometric parameters.
-xgboost_classification_gradcam.R	XGBoost model trained on Grad-CAM-derived features for interpretability and cross-validation.
-
-Both scripts support:
-Training/validation/test split
-Feature importance plots
-Confusion matrix and ROC/PR evaluation
-CSV export of results to /results/
-
-⚙️ Usage Example
-Train a multimodal ResNet50 model (patch-level)
-python multimodal_resnet50_patch_level.py \
-    --data_dir ./data/train \
-    --val_dir ./data/val \
-    --epochs 100 \
-    --batch_size 64 \
-    --output_dir ./results/resnet50_patch/
-
-Run XGBoost Grad-CAM analysis
-python xgboost_classification_gradcam.py \
-  --input ./supplementary_data/supplementary_table_4.xlsx \
-  --output ./results/xgboost_gradcam/
-
-5. Patch Generation and Pre-processing
-Patch size: 299 × 299 pixels
-Patch overlap: 20%
-Color normalization: Macenko method
-Data augmentation: Rotations (90°, 180°, 270°) and Gaussian blur
-Data split:
-From 136 patients (68 DLBCL – Class 1, 68 ENKTCL-NT – Class 2):
-Internal patient-level split:
-Training (80%) → 85 cases
-43 Class 1 → 82,679 patches
-42 Class 2 → 79,978 patches
-Validation (10%) → 12 cases
-6 Class 1 → 8,896 patches
-6 Class 2 → 7,621 patches
-Test (10%) → 12 cases
-6 Class 1 → 8,093 patches
-6 Class 2 → 8,074 patches
-External Validation
-External 1 (13 cases)
-7 Class 1 → 7,146 patches
-6 Class 2 → 7,853 patches
-External 2 (14 cases)
-6 Class 1 → 7,004 patches
-8 Class 2 → 7,413 patches
-
-6. Multimodal Deep Learning (CNN + MLP Fusion)
-Backbones: AlexNet, ResNet50 and ConvNeXt-XLarge (ImageNet pretrained)
-Fusion strategy: Late fusion (concatenation of CNN and MLP embeddings)
-MLP branch: Fully connected layers with ReLU activation and dropout regularization
-Optimizer: AdamW (learning rate = 1 × 10⁻⁴, weight decay = 1 × 10⁻⁴)
-Loss function: Weighted Cross-Entropy
-Batch size: 64
-Computation: Mixed precision (CUDA)
-Aggregation (patient-level): Mean of patch-level probabilities
-
-🧬 Reproducibility Notes
-Python: 3.12.11
-PyTorch: 2.8.0 + CUDA 12.8
-GPU: 3 × NVIDIA RTX 3090 (24 GB each)
-OS: Ubuntu 20.04 LTS
-RAM: 125 GB
-Random seeds are fixed (torch, numpy, random) for deterministic behavior.
+─ The workflow supports:
+First-line IHC panel recommendation
+Reflex panel escalation
+Molecular testing recommendation
+Confidence-aware decision support
+The framework acts as a diagnostic support layer intended to augment — not replace — specialist pathologist interpretation.
