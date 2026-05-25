@@ -288,32 +288,9 @@ To support reproducibility, this repository provides:
 
 # 💻 Code Availability
 
-The complete computational framework is publicly available on GitHub:
+Code availability
 
-[https://github.com/lucas-lacerda-de-souza/Classification-LYMPHOMA](https://github.com/lucas-lacerda-de-souza/Classification-LYMPHOMA)
-
-The repository includes:
-
-* Inference scripts
-* Model architectures
-* Evaluation pipelines
-* Explainability workflows
-* Documentation
-
-# 🧠 Model Weights
-
-Pretrained weights and checkpoints are available through Zenodo:
-
-[https://doi.org/10.5281/zenodo.17661989](https://doi.org/10.5281/zenodo.17661989)
-
-Available resources include:
-
-* UNI checkpoints
-* MIL models
-* CellViT++ segmentation weights
-* Multimodal classifiers
-
----
+We have made the codes publicly available online, along with model weights (https://github.com/lucas-lacerda-de-souza/Classification-LYMPHOMA). All code was written with Python Python 3.12.11, along with PyTorch 2.8.0. The full implementation of the model, including the code and documentation, has been deposited in the Zenodo repository and is publicly available (https://doi.org/10.5281/zenodo.20383882). 
 
 # 📚 Citation
 
@@ -322,6 +299,4 @@ Available resources include:
   title={When Artificial Intelligence Falls Short: Improving Head and Neck Lymphoma Classification through Multimodal Analysis in a Multicenter Cohort},
   author={Souza, Lucas Lacerda de and collaborators},
   journal={2026},
-  year={2026}
-}
-```
+  year={2026}}
