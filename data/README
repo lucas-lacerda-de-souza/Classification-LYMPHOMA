@@ -1,99 +1,111 @@
 🧩 Directory Overview
-1. Patches and Heatmaps
-Here are provided examples of synthetic patches and the directory organization required to reproduce 
-the multimodal experiments combining morphometric, clinical, and deep learning data.
+This repository section contains examples of the expected data organisation required to reproduce the multimodal experiments combining histopathological image analysis, nuclear morphometric features, 
+clinical variables, and deep learning models.
+Due to ethical restrictions and patient privacy regulations, complete whole-slide images (WSIs) and raw clinical datasets are not publicly available. Therefore, only synthetic or representative examples 
+of patches, masks, and directory structures are provided.
+
+🧩 1. Example Patch and Mask Structure
+The following structure illustrates the expected organisation of image patches and segmentation masks used during training, validation, and testing.
+
 ├── patches/
-│   ├── gradcam/
-│   │   ├── heatmaps/
-│   │   │   ├── heatmap_1.png
-│   │   │   ├── heatmap_2.png
-│   │   │   ├── heatmap_3.png
-│   │   │   ├── heatmap_4.png
-│   │   │   └── heatmap_5.png
-│   │   └── patches/
-│   │   ├── patch_1.png
-│   │   ├── patch_2.png
-│   │   ├── patch_3.png
-│   │   ├── patch_4.png
-│   │   └── patch_5.png
-│   └── wsi_heatmaps/
-│   ├── wsi_dlbcl_1.png
-│   ├── wsi_dlbcl_2.png
-│   ├── wsi_enktclnt_1.png
-│   └── wsi_enktclnt_2.png
-│   │
 │   ├── masks/
 │   │   ├── train/
 │   │   │   ├── Case_1/mask.png
 │   │   │   ├── Case_2/mask.png
-│   │   │   ├── Case_3/mask.png
-│   │   │   ├── Case_4/mask.png
-│   │   │   └── Case_5/mask.png
+│   │   │   └── ...
+│   │   │
 │   │   ├── val/
 │   │   │   ├── Case_1/mask.png
 │   │   │   ├── Case_2/mask.png
-│   │   │   ├── Case_3/mask.png
-│   │   │   ├── Case_4/mask.png
-│   │   │   └── Case_5/mask.png
+│   │   │   └── ...
+│   │   │
 │   │   └── test/
 │   │       ├── Case_1/mask.png
 │   │       ├── Case_2/mask.png
-│   │       ├── Case_3/mask.png
-│   │       ├── Case_4/mask.png
-│   │       └── Case_5/mask.png
+│   │       └── ...
 │   │
 │   └── patches/
 │       ├── train/
 │       │   ├── Case_1/patch.png
 │       │   ├── Case_2/patch.png
-│       │   ├── Case_3/patch.png
-│       │   ├── Case_4/patch.png
-│       │   └── Case_5/patch.png
+│       │   └── ...
+│       │
 │       ├── val/
 │       │   ├── Case_1/patch.png
 │       │   ├── Case_2/patch.png
-│       │   ├── Case_3/patch.png
-│       │   ├── Case_4/patch.png
-│       │   └── Case_5/patch.png
+│       │   └── ...
+│       │
 │       └── test/
 │           ├── Case_1/patch.png
 │           ├── Case_2/patch.png
-│           ├── Case_3/patch.png
-│           ├── Case_4/patch.png
-│           └── Case_5/patch.png
+│           └── ...
+└──
 
-🧩 2. Data Organization for Multimodal Models
-
-The following structure is required to train and validate the multimodal deep learning models.
-Each dataset split (train, validation, and test) contains two classes:
-
-Class 0 → Diffuse Large B-Cell Lymphoma (DLBCL)
-Class 1 → Extranodal NK/T-Cell Lymphoma, nasal type (ENKTCL)
+🧩 2. Data Organisation for Multimodal Models
+The following structure is required for multimodal training and validation.
 
 ├── data/
 │   ├── train/
-│   │   ├── 0/     
-│   │   └── 1/      
+│   │   ├── 0/
+│   │   ├── 1/
+│   │   ├── 2/
+│   │   └── 3/
+│   │
 │   ├── val/
 │   │   ├── 0/
-│   │   └── 1/
+│   │   ├── 1/
+│   │   ├── 2/
+│   │   └── 3/
+│   │
 │   ├── test/
 │   │   ├── 0/
-│   │   └── 1/
+│   │   ├── 1/
+│   │   ├── 2/
+│   │   └── 3/
+│   │
 │   └── clinical_data/
 │       ├── clinical_data_train.xlsx
 │       ├── clinical_data_val.xlsx
 │       └── clinical_data_test.xlsx
-│
+└──
+
+Diagnostic Categories
+| Class Index | Diagnostic Category            |
+| ----------- | ------------------------------ |
+| 0           | Aggressive B-cell lymphoma     |
+| 1           | Indolent/Small B-cell lymphoma |
+| 2           | NK/T-cell lymphoma             |
+| 3           | Reactive lesions               |
 
 🧩 3. Supplementary Data
 
-These files provide supporting datasets used for classical, multimodal, and explainability analyses.
+These files provide supporting datasets and metadata used for multimodal analysis, clinicopathological integration, and model evaluation.
 
 ├── supplementary_data/
-│   ├── supplementary_table_1.xlsx   # Morphometric analysis table of the training dataset used in traditional statistical analysis (XGBoost model)
-│   ├── supplementary_table_2.xlsx   # Clinicopathologic and morphometric analysis table of the training dataset used in the XGBoost model
-│   ├── supplementary_table_3.xlsx   # Multimodal data analysis table combining clinical and morphometric factors
-│   ├── supplementary_table_4.xlsx   # Data analysis table from Grad-CAM results (external validation set)
-│   └── supplementary_table_5.xlsx   # Pathologists evaluation
-└── 
+│   ├── supplementary_table_1.xlsx
+│   ├── supplementary_table_2.xlsx
+│   ├── supplementary_table_3.xlsx
+│   ├── supplementary_table_4.xlsx
+│   ├── supplementary_table_5.xlsx
+│   ├── supplementary_table_6.xlsx
+│   ├── supplementary_table_7.xlsx
+│   ├── supplementary_table_8.xlsx
+│   └── supplementary_table_9.xlsx
+└──
+
+Supplementary Tables
+Supplementary Table 1. Number and distribution of cases retrieved from each participating centre.
+Supplementary Table 2. Immunohistochemical and molecular profile of head and neck lymphomas.
+Supplementary Table 3. TRIPOD-AI checklist.
+Supplementary Table 4. STARD-AI checklist.
+Supplementary Table 5. Stratified dataset split by diagnostic subtype and contributing centres.
+Supplementary Table 6. Specification of CellViT++ architecture and extracted nuclear morphometric features.
+Supplementary Table 7. Features used in the UNI foundation model.
+Supplementary Table 8. Clinicopathological and morphometric dataset used in this study.
+Supplementary Table 9. Literature review of previous studies.
+
+🔒 Data Availability
+
+Due to ethical restrictions, institutional review board policies, and patient privacy regulations, complete whole-slide images (WSIs), raw clinicopathological data, and patient-identifiable material 
+cannot be publicly shared.
+Only representative examples and directory structures are provided to facilitate reproducibility of the computational pipeline.
