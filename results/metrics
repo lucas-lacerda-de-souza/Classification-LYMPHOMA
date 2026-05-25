@@ -1,17 +1,15 @@
- ***Multimodal AI Framework for Head and Neck Lymphoma Classification***
+Results – Multimodal AI Framework for Head and Neck Lymphoma Classification
 
-## Cohort Overview
-
+Cohort Overview
 A total of 662 cases were included in the study, comprising aggressive B-cell lymphomas, indolent/small B-cell lymphomas, NK/T-cell lymphomas, and reactive lesions collected from ten 
 international institutions across Brazil, Guatemala, Mexico, and the United Kingdom. The dataset incorporated a wide range of anatomical sites and demographic profiles, reflecting real-world 
 diagnostic heterogeneity.
 
-# Nuclear Segmentation and Morphometric Analysis
-
+🔬 Nuclear Segmentation and Morphometric Analysis
 Nuclear segmentation using CellViT++ demonstrated strong performance across heterogeneous histopathological samples:
 
-* **Dice coefficient:** 0.91 (range: 0.86–0.95)
-* **Intersection over Union (IoU):** 0.84 (range: 0.78–0.90)
+* ✅ **Dice coefficient:** **0.91** (range: 0.86–0.95)
+* ✅ **Intersection over Union (IoU):** **0.84** (range: 0.78–0.90)
 
 Morphometric analysis revealed biologically meaningful differences between diagnostic categories:
 
@@ -22,20 +20,20 @@ Morphometric analysis revealed biologically meaningful differences between diagn
 | NK/T-cell lymphoma             | 20.12        | 18.17     | 0.755       | 0.758        |
 | Reactive lesions               | 20.58        | 18.03     | 0.812       | 0.697        |
 
-Aggressive lymphomas demonstrated larger nuclear dimensions and greater morphometric irregularity, consistent with high-grade biological behavior.
+🧬 **Aggressive lymphomas demonstrated larger nuclear dimensions and greater morphometric irregularity**, consistent with high-grade biological behavior and WHO diagnostic criteria.
 
 ---
 
-# Unimodal Analysis (H&E Images Only)
+# 🧠 Unimodal Analysis (H&E Images Only)
 
 The unimodal model based exclusively on H&E morphology demonstrated moderate diagnostic performance.
 
 ## Performance Metrics
 
-* **Overall Accuracy:** 0.66
-* **Weighted Precision:** 0.66
-* **Weighted Recall:** 0.66
-* **Weighted F1-score:** 0.65
+* 📊 **Overall Accuracy:** **0.66**
+* 📌 **Weighted Precision:** **0.66**
+* 📌 **Weighted Recall:** **0.66**
+* 📌 **Weighted F1-score:** **0.65**
 * **Balanced Accuracy:** 0.66
 * **Cohen’s Kappa:** 0.63
 * **Sensitivity:** 0.66
@@ -50,12 +48,11 @@ The unimodal model based exclusively on H&E morphology demonstrated moderate dia
 | NK/T-cell lymphoma             | 0.64 |
 | Indolent/small B-cell lymphoma | 0.60 |
 
-The unimodal framework showed substantial overlap between indolent lymphomas and reactive lesions, highlighting the intrinsic limitations of morphology-only approaches in routine diagnostic 
-settings.
+⚠️ The unimodal framework showed substantial overlap between indolent lymphomas and reactive lesions, highlighting the intrinsic limitations of **morphology-only approaches** in routine diagnostic settings.
 
 ---
 
-# Multimodal Analysis
+# 🤖 Multimodal Analysis
 
 The multimodal framework integrated:
 
@@ -63,16 +60,16 @@ The multimodal framework integrated:
 * Nuclear morphometric features
 * Clinicopathological variables
 
-This strategy substantially improved classification performance and generalization.
+✨ This strategy substantially improved **classification performance**, **generalization**, and **diagnostic robustness**.
 
 ## Internal Test Performance
 
-* **Overall Accuracy:** 0.91
-* **Weighted Precision:** 0.91
-* **Weighted Recall:** 0.91
-* **Weighted F1-score:** 0.91
-* **Balanced Accuracy:** 0.90
-* **Cohen’s Kappa:** 0.88
+* 🏆 **Overall Accuracy:** **0.91**
+* 📌 **Weighted Precision:** **0.91**
+* 📌 **Weighted Recall:** **0.91**
+* 📌 **Weighted F1-score:** **0.91**
+* 📌 **Balanced Accuracy:** **0.90**
+* 📌 **Cohen’s Kappa:** **0.88**
 * **Sensitivity:** 0.91
 * **Specificity:** 0.94
 
@@ -85,13 +82,13 @@ This strategy substantially improved classification performance and generalizati
 | Indolent/small B-cell lymphoma | 0.870 |
 | Reactive lesions               | 0.811 |
 
-The multimodal model demonstrated markedly reduced inter-class confusion and improved latent feature separation compared with the unimodal model.
+🚀 The multimodal model demonstrated **markedly reduced inter-class confusion** and improved latent feature separation compared with the unimodal model.
 
 ---
 
-# External Validation
+# 🌎 External Validation
 
-## External Validation Cohort A
+## ✅ External Validation Cohort A
 
 The first independent external validation cohort demonstrated strong generalization performance.
 
@@ -117,7 +114,7 @@ The first independent external validation cohort demonstrated strong generalizat
 
 ---
 
-## External Validation Cohort B
+## ⚙️ External Validation Cohort B
 
 The second external cohort, characterized by higher variability in staining and scanner platforms, demonstrated slightly reduced but still robust performance.
 
@@ -141,11 +138,11 @@ The second external cohort, characterized by higher variability in staining and 
 | Indolent/small B-cell lymphoma | 0.81 |
 | Reactive lesions               | 0.75 |
 
-The decrease in performance reflects real-world variability associated with multicenter datasets, including scanner differences, staining variability, and tissue preparation heterogeneity.
+📌 The decrease in performance reflects **real-world variability** associated with multicenter datasets, including scanner differences, staining variability, and tissue preparation heterogeneity.
 
 ---
 
-# Explainability Analysis
+# 🔍 Explainability Analysis
 
 SHAP-based explainability demonstrated that nuclear morphometric descriptors were the most influential features driving model predictions.
 
@@ -158,11 +155,11 @@ SHAP-based explainability demonstrated that nuclear morphometric descriptors wer
 
 Clinical variables such as age, sex, and anatomical location contributed less substantially to prediction outcomes.
 
-Importantly, the prominence of nuclear size and pleomorphism directly aligns with WHO diagnostic criteria for aggressive lymphomas, reinforcing the biological interpretability of the model.
+🧬 Importantly, the prominence of **nuclear size** and **pleomorphism** directly aligns with WHO diagnostic criteria for aggressive lymphomas, reinforcing the **biological interpretability** of the model.
 
 ---
 
-# AI-Guided Immunohistochemical Workflow
+# 🧪 AI-Guided Immunohistochemical Workflow
 
 The proposed framework was translated into a clinically oriented diagnostic support workflow.
 
@@ -188,24 +185,24 @@ Reflex panels and molecular testing were recommended, including:
 * FISH assays
 * PCR clonality studies
 
-This confidence-adaptive workflow reduced unnecessary testing while improving diagnostic precision and turnaround time.
+⚡ This confidence-adaptive workflow reduced unnecessary testing while improving **diagnostic precision**, **workflow efficiency**, and **turnaround time**.
 
 ---
 
-# Error Analysis
+# ⚠️ Error Analysis
 
 Misclassifications were concentrated in biologically overlapping categories:
 
 * Indolent/small B-cell lymphomas vs reactive lesions
 * NK/T-cell lymphomas vs B-cell entities
 
-Aggressive B-cell lymphomas demonstrated the lowest error rate due to their more distinctive morphometric and proliferative characteristics.
+✅ Aggressive B-cell lymphomas demonstrated the **lowest error rate** due to their more distinctive morphometric and proliferative characteristics.
 
 Importantly, most uncertain predictions were associated with intermediate probability outputs, which appropriately triggered second-line immunohistochemical and molecular investigations, minimizing clinical risk.
 
 ---
 
-# Conclusion
+# 🎯 Conclusion
 
 The proposed multimodal framework demonstrated:
 
@@ -215,6 +212,16 @@ The proposed multimodal framework demonstrated:
 * Biological interpretability through explainable AI
 * Clinical applicability through AI-guided immunohistochemical workflows
 
-These findings support the potential integration of multimodal artificial intelligence as a diagnostic support tool in hematopathology, particularly for complex head and neck lymphoma classification scenarios.
+🚀 These findings support the potential integration of **multimodal artificial intelligence** as a diagnostic support tool in hematopathology, particularly for complex head and neck lymphoma classification scenarios.
+
+## 🌟 Key Highlights
+
+* 🏆 **91% internal accuracy** using the multimodal framework
+* 🌎 Strong external validation across international cohorts
+* 🔬 Robust nuclear segmentation with Dice coefficient of **0.91**
+* 🧠 Explainable AI aligned with WHO pathological criteria
+* 🧪 Clinically applicable AI-guided IHC workflow
+* ⚡ Reduced diagnostic ambiguity and improved workflow efficiency
+* 📈 Superior performance compared with H&E-only analysis
 
 Source manuscript: fileciteturn0file0L1-L200
