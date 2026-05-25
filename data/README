@@ -1,6 +1,6 @@
 🧩 Directory Overview
-This repository section contains examples of the expected data organisation required to reproduce the multimodal experiments combining histopathological image analysis, nuclear morphometric features, 
-clinical variables, and deep learning models.
+This repository section contains examples of the expected data organisation required to reproduce the multimodal experiments combining histopathological image analysis, nuclear morphometric 
+features, clinical variables, and deep learning models.
 Due to ethical restrictions and patient privacy regulations, complete whole-slide images (WSIs) and raw clinical datasets are not publicly available. Therefore, only synthetic or representative 
 examples  of patches, masks, and directory structures are provided.
 
