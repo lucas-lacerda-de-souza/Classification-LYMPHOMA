@@ -1,132 +1,220 @@
-📊 Summary of Results
-1. Morphometric Analysis
-DLBCL nuclei were significantly larger and more elongated than ENKTCL nuclei, with increased nuclear area (p < 0.0001), perimeter (p < 0.0001), and eccentricity (p = 0.0052). Circularity showed no significant difference (p = 0.1195). 
-Hematoxylin mean optical density was markedly higher in DLBCL (p < 0.0001), indicating stronger staining intensity.
+# Results – Multimodal AI Framework for Head and Neck Lymphoma Classification
 
-2. Traditional Machine Learning (Clinicopathological + Morphometric Features)
-XGBoost achieved:
-Accuracy: 0.829
-AUC: 0.945
-F1-score: 0.829
-Precision: 0.810
-Recall: 0.850
-SHAP analysis revealed age, nuclear area, and nuclear hematoxylin OD mean as the most influential features. These were integrated into the multimodal framework used for deep learning classification.
+## Cohort Overview
 
-3. Multimodal Patch-Level Classification
-Performance across architectures is summarised below.
-AlexNet
-Internal accuracy: 0.785
-External validation:
-EV1: 0.770
-EV2: 0.805
+A total of 662 cases were included in the study, comprising aggressive B-cell lymphomas, indolent/small B-cell lymphomas, NK/T-cell lymphomas, and reactive lesions collected from ten 
+international institutions across Brazil, Guatemala, Mexico, and the United Kingdom. The dataset incorporated a wide range of anatomical sites and demographic profiles, reflecting real-world 
+diagnostic heterogeneity.
 
-AlexNet + Segmentation
-Internal accuracy: 0.820
-External validation:
-EV1: 0.765
-EV2: 0.805
+# Nuclear Segmentation and Morphometric Analysis
 
-ResNet50
-Internal accuracy: 0.930
-External validation:
-EV1: 0.885
-EV2: 0.895
+Nuclear segmentation using CellViT++ demonstrated strong performance across heterogeneous histopathological samples:
 
-ResNet50 + Segmentation
-Internal accuracy: 0.960
-External validation:
-EV1: 0.930
-EV2: 0.952** (highest overall)
+* **Dice coefficient:** 0.91 (range: 0.86–0.95)
+* **Intersection over Union (IoU):** 0.84 (range: 0.78–0.90)
 
-ConvNeXt-XLarge
-Internal accuracy: 0.875
-External validation:
-EV1: 0.860
-EV2: 0.885
+Morphometric analysis revealed biologically meaningful differences between diagnostic categories:
 
-ConvNeXt-XLarge + Segmentation
-Internal accuracy: 0.915
-External validation:
-EV1: 0.885
-EV2: 0.901
+| Category                       | Nuclear Area | Perimeter | Circularity | Eccentricity |
+| ------------------------------ | ------------ | --------- | ----------- | ------------ |
+| Aggressive B-cell lymphoma     | 23.83        | 19.69     | 0.752       | 0.742        |
+| Indolent/small B-cell lymphoma | 20.73        | 18.37     | 0.784       | 0.707        |
+| NK/T-cell lymphoma             | 20.12        | 18.17     | 0.755       | 0.758        |
+| Reactive lesions               | 20.58        | 18.03     | 0.812       | 0.697        |
 
-Overall best performer:
-👉 ResNet50 + Segmented Patches, achieving the strongest and most consistent performance across all datasets.
+Aggressive lymphomas demonstrated larger nuclear dimensions and greater morphometric irregularity, consistent with high-grade biological behavior.
 
-4. Multimodal Patient-Level Analysis
-Across all architectures, integrating clinical and morphometric data improved robustness in external validation.
+---
 
-Highlights:
-AlexNet
-Internal accuracy: 0.892
-EV2 accuracy: 0.906
-ROC AUC range: 0.866–0.928
+# Unimodal Analysis (H&E Images Only)
 
-Segmentation-Enhanced AlexNet
-Internal accuracy: 0.880
-EV2 accuracy: 0.892
-ROC AUC range: 0.918–0.945
+The unimodal model based exclusively on H&E morphology demonstrated moderate diagnostic performance.
 
-ResNet50
-Internal accuracy: 0.924
-EV2 accuracy: 0.904
-ROC AUC range: 0.851–0.940
+## Performance Metrics
 
-ResNet50 + Segmentation
-Internal accuracy: 0.978
-EV2 accuracy: 0.933
-ROC AUC range: 0.911–0.976
+* **Overall Accuracy:** 0.66
+* **Weighted Precision:** 0.66
+* **Weighted Recall:** 0.66
+* **Weighted F1-score:** 0.65
+* **Balanced Accuracy:** 0.66
+* **Cohen’s Kappa:** 0.63
+* **Sensitivity:** 0.66
+* **Specificity:** 0.71
 
-ConvNeXt-XLarge
-Internal accuracy: 0.893
-EV2 accuracy: 0.913
-ROC AUC range: 0.926–0.964
+## ROC-AUC Performance
 
-ConvNeXt-XLarge + Segmentation
-Internal accuracy: 0.861
-EV2 accuracy: 0.869
-ROC AUC range: 0.873–0.911
+| Diagnostic Category            | AUC  |
+| ------------------------------ | ---- |
+| Aggressive B-cell lymphoma     | 0.71 |
+| Reactive lesions               | 0.68 |
+| NK/T-cell lymphoma             | 0.64 |
+| Indolent/small B-cell lymphoma | 0.60 |
 
-5. Vision Transformer Performance (CellViT++)
+The unimodal framework showed substantial overlap between indolent lymphomas and reactive lesions, highlighting the intrinsic limitations of morphology-only approaches in routine diagnostic 
+settings.
 
-The CellViT++ architecture demonstrated consistently high performance in nuclear segmentation, with Dice and IoU values exceeding 0.95 across all cohorts.
-In classification tasks:
-Patch-level accuracy: 94.3%
-Patch-level ROC AUC: 0.96 (95% CI: 0.86–0.99)
-Patient-level accuracy: 92.1%
-Patient-level ROC AUC: 0.96 (95% CI: 0.91–0.98)
-Calibration analysis showed reliable probability estimates (ECE = 0.07; Brier score = 0.05).
+---
 
-6. Grad-CAM Morphological Classification
+# Multimodal Analysis
 
-XGBoost trained on Grad-CAM–derived features:
-Training accuracy: 0.926
-Internal validation accuracy: 0.776
-External validation accuracy: 0.817
-External AUC: 0.847
-Results indicate good generalisation when applied to previously unseen Grad-CAM morphological profiles.
+The multimodal framework integrated:
 
-7. Pathologist Benchmark
+* Foundation model embeddings (UNI)
+* Nuclear morphometric features
+* Clinicopathological variables
 
-Three pathologists independently evaluated the same cases using H&E-stained whole-slide images.
+This strategy substantially improved classification performance and generalization.
 
-Pathologist 1 (haematopathologist):
-Accuracy: 91.2%
-F1-score: 0.905
-Cohen’s κ vs reference: 0.824
+## Internal Test Performance
 
-Pathologist 2:
-Accuracy: 65.4%
-F1-score: 0.584
-Cohen’s κ vs reference: 0.309
+* **Overall Accuracy:** 0.91
+* **Weighted Precision:** 0.91
+* **Weighted Recall:** 0.91
+* **Weighted F1-score:** 0.91
+* **Balanced Accuracy:** 0.90
+* **Cohen’s Kappa:** 0.88
+* **Sensitivity:** 0.91
+* **Specificity:** 0.94
 
-Pathologist 3:
-Accuracy: 60.3%
-F1-score: 0.565
-Cohen’s κ vs reference: 0.206
+## ROC-AUC Performance
 
-Interobserver agreement among non-senior readers was fair (κ = 0.296), highlighting substantial diagnostic variability when relying on morphology alone.
+| Diagnostic Category            | AUC   |
+| ------------------------------ | ----- |
+| Aggressive B-cell lymphoma     | 0.905 |
+| NK/T-cell lymphoma             | 0.880 |
+| Indolent/small B-cell lymphoma | 0.870 |
+| Reactive lesions               | 0.811 |
 
-✅ Final Summary for GitHub
-This study demonstrates that integrating morphometric analysis, traditional ML, deep learning, and segmentation-enhanced multimodal pipelines provides highly accurate differentiation between DLBCL and ENKTCL. 
-The ResNet50 + segmented patches model achieved the best and most stable performance across all internal and external validations, surpassing standard CNN architectures and approaching expert-level diagnostic agreement.
+The multimodal model demonstrated markedly reduced inter-class confusion and improved latent feature separation compared with the unimodal model.
+
+---
+
+# External Validation
+
+## External Validation Cohort A
+
+The first independent external validation cohort demonstrated strong generalization performance.
+
+### Metrics
+
+* **Overall Accuracy:** 0.84
+* **Weighted Precision:** 0.84
+* **Weighted Recall:** 0.84
+* **Weighted F1-score:** 0.83
+* **Balanced Accuracy:** 0.84
+* **Cohen’s Kappa:** 0.79
+* **Sensitivity:** 0.84
+* **Specificity:** 0.89
+
+### ROC-AUC
+
+| Diagnostic Category            | AUC  |
+| ------------------------------ | ---- |
+| Aggressive B-cell lymphoma     | 0.88 |
+| NK/T-cell lymphoma             | 0.85 |
+| Indolent/small B-cell lymphoma | 0.85 |
+| Reactive lesions               | 0.78 |
+
+---
+
+## External Validation Cohort B
+
+The second external cohort, characterized by higher variability in staining and scanner platforms, demonstrated slightly reduced but still robust performance.
+
+### Metrics
+
+* **Overall Accuracy:** 0.79
+* **Weighted Precision:** 0.79
+* **Weighted Recall:** 0.79
+* **Weighted F1-score:** 0.78
+* **Balanced Accuracy:** 0.79
+* **Cohen’s Kappa:** 0.71
+* **Sensitivity:** 0.79
+* **Specificity:** 0.83
+
+### ROC-AUC
+
+| Diagnostic Category            | AUC  |
+| ------------------------------ | ---- |
+| Aggressive B-cell lymphoma     | 0.84 |
+| NK/T-cell lymphoma             | 0.82 |
+| Indolent/small B-cell lymphoma | 0.81 |
+| Reactive lesions               | 0.75 |
+
+The decrease in performance reflects real-world variability associated with multicenter datasets, including scanner differences, staining variability, and tissue preparation heterogeneity.
+
+---
+
+# Explainability Analysis
+
+SHAP-based explainability demonstrated that nuclear morphometric descriptors were the most influential features driving model predictions.
+
+## Most Relevant Features
+
+1. Nuclear area
+2. Nuclear perimeter
+3. Nuclear eccentricity
+4. Nuclear circularity
+
+Clinical variables such as age, sex, and anatomical location contributed less substantially to prediction outcomes.
+
+Importantly, the prominence of nuclear size and pleomorphism directly aligns with WHO diagnostic criteria for aggressive lymphomas, reinforcing the biological interpretability of the model.
+
+---
+
+# AI-Guided Immunohistochemical Workflow
+
+The proposed framework was translated into a clinically oriented diagnostic support workflow.
+
+## High-Confidence Predictions
+
+The model guided targeted first-line immunohistochemical panels:
+
+* **Aggressive B-cell lymphomas:** CD20, CD79a, PAX5, CD3, Ki-67
+* **Indolent B-cell lymphomas:** CD20, CD5, CD10, BCL6, BCL2, Cyclin D1
+* **NK/T-cell lymphomas:** CD2, CD3ε, CD56, EBER
+* **Reactive lesions:** CD20, CD3, CD21, CD23, Ki-67
+
+## Intermediate-Confidence Predictions
+
+Reflex panels and molecular testing were recommended, including:
+
+* MYC, BCL2, BCL6
+* SOX11
+* MUM1
+* ALK
+* TdT
+* HHV8
+* FISH assays
+* PCR clonality studies
+
+This confidence-adaptive workflow reduced unnecessary testing while improving diagnostic precision and turnaround time.
+
+---
+
+# Error Analysis
+
+Misclassifications were concentrated in biologically overlapping categories:
+
+* Indolent/small B-cell lymphomas vs reactive lesions
+* NK/T-cell lymphomas vs B-cell entities
+
+Aggressive B-cell lymphomas demonstrated the lowest error rate due to their more distinctive morphometric and proliferative characteristics.
+
+Importantly, most uncertain predictions were associated with intermediate probability outputs, which appropriately triggered second-line immunohistochemical and molecular investigations, minimizing clinical risk.
+
+---
+
+# Conclusion
+
+The proposed multimodal framework demonstrated:
+
+* Strong internal and external validation performance
+* Robust nuclear segmentation and morphometric extraction
+* Superior performance compared with morphology-only analysis
+* Biological interpretability through explainable AI
+* Clinical applicability through AI-guided immunohistochemical workflows
+
+These findings support the potential integration of multimodal artificial intelligence as a diagnostic support tool in hematopathology, particularly for complex head and neck lymphoma classification scenarios.
+
+Source manuscript: fileciteturn0file0L1-L200
