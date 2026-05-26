@@ -31,18 +31,18 @@ Performance Metrics
 📌 Weighted Precision: 0.66
 📌 Weighted Recall: 0.66
 📌 Weighted F1-score: 0.65
-Balanced Accuracy: 0.66
-Cohen’s Kappa: 0.63
-Sensitivity: 0.66
-Specificity: 0.71
+📌 Balanced Accuracy: 0.66
+📌 Cohen’s Kappa: 0.63
+📌 Sensitivity: 0.66
+📌 Specificity: 0.71
 
 ROC-AUC Performance
 | Diagnostic Category            | AUC  |
 | ------------------------------ | ---- |
 | Aggressive B-cell lymphoma     | 0.71 |
-| Reactive lesions               | 0.68 |
-| NK/T-cell lymphoma             | 0.64 |
-| Indolent/small B-cell lymphoma | 0.60 |
+| Reactive lesions               | 0.61 |
+| NK/T-cell lymphoma             | 0.66 |
+| Indolent/small B-cell lymphoma | 0.64 |
 
 ⚠️ The unimodal framework showed substantial overlap between indolent lymphomas and reactive lesions, highlighting the intrinsic limitations of morphology-only approaches in routine 
 diagnostic settings.
@@ -61,8 +61,8 @@ Internal Test Performance
 📌 Weighted F1-score: 0.91
 📌 Balanced Accuracy: 0.90
 📌 Cohen’s Kappa: 0.88
-📌 Sensitivity:** 0.91
-📌 Specificity:** 0.94
+📌 Sensitivity: 0.91
+📌 Specificity: 0.94
 
 ROC-AUC Performance
 
