@@ -16,7 +16,6 @@ The computational framework integrates:
 - CellViT++-based nuclear segmentation and morphometric feature extraction
 - Clinicopathological variables, including age, sex, and anatomical location
 - Attention-based multiple instance learning (MIL)
-- Patch-level, slide-level, and patient-level evaluation
 - SHAP-based explainability analysis
 - AI-guided diagnostic workflow for immunohistochemical and molecular testing
 The goal of this model is to provide a research-oriented decision-support framework for computational hematopathology, particularly in diagnostically challenging head and neck lymphoid lesions.
@@ -58,7 +57,6 @@ The UNI foundation model was used as a frozen feature extractor for histopatholo
 Main characteristics:
 - Backbone: Vision Transformer `vit_large_patch16_224`
 - Input: H&E image patches
-- Patch size: 224 × 224 pixels
 - Encoder: Frozen UNI model
 - Output: High-dimensional patch embeddings
 - Training: No UNI weight updates
@@ -215,6 +213,7 @@ The H&E-only model demonstrated limited generalisation.
 | Cohen’s kappa      | 0.63  |
 | Sensitivity        | 0.66  |
 | Specificity        | 0.71  |
+| AUROC              | 0.66  |
 
 
 Class-wise ROC AUC:
@@ -222,9 +221,9 @@ Class-wise ROC AUC:
 | Class                          | AUC  |
 | ------------------------------ | ---- |
 | Aggressive B-cell lymphoma     | 0.71 |
-| Reactive lesions               | 0.68 |
-| NK/T-cell lymphoma             | 0.64 |
-| Indolent/small B-cell lymphoma | 0.60 |
+| Reactive lesions               | 0.61 |
+| NK/T-cell lymphoma             | 0.66 |
+| Indolent/small B-cell lymphoma | 0.64 |
 
 Training accuracy approached 1.00, while validation accuracy plateaued at approximately 0.75, indicating overfitting and limited morphology-only generalisation.
 
@@ -241,6 +240,7 @@ The multimodal model demonstrated improved optimisation, stronger generalisation
 | Cohen’s kappa      | 0.88  |
 | Sensitivity        | 0.91  |
 | Specificity        | 0.94  |
+| AUROC              | 0.87  |
 
 Class-wise ROC AUC:
 
@@ -267,6 +267,7 @@ The first external validation cohort demonstrated strong multicentre generalisat
 | Cohen’s kappa      | 0.79  |
 | Sensitivity        | 0.84  |
 | Specificity        | 0.89  |
+| AUROC              | 0.84  |
 
 
 Class-wise ROC AUC:
@@ -292,6 +293,7 @@ The second external validation cohort showed a modest performance reduction, lik
 | Cohen’s kappa      | 0.71  |
 | Sensitivity        | 0.79  |
 | Specificity        | 0.83  |
+| AUROC              | 0.80  |
 
 Class-wise ROC AUC:
 
@@ -312,7 +314,6 @@ The most influential features were:
 Nuclear area
 Nuclear perimeter
 Nuclear eccentricity
-Circularity
 
 Clinical variables such as age, sex, and anatomical location showed comparatively lower SHAP magnitudes.
 The prominence of nuclear area and related morphometric features is biologically consistent with established pathological criteria for high-grade lymphomas, where increased nuclear size, pleomorphism, and chromatin irregularity are diagnostically relevant.
