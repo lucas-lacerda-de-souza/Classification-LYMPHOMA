@@ -298,9 +298,15 @@ Zenodo repository and is publicly available (https://doi.org/10.5281/zenodo.2038
 
 @article{desouza2026lymphoma,
   title   = {When Artificial Intelligence Falls Short: Improving Head and Neck Lymphoma Classification through Multimodal Analysis in a Multicenter Cohort},
+  
   author  = {de Souza, Lucas Lacerda and others},
+  
   journal = {iScience},
+  
   year    = {2026},
+  
   doi     = {10.1016/j.isci.2026.118165},
+  
   url     = {https://doi.org/10.1016/j.isci.2026.118165},
+  
   publisher = {Elsevier}
